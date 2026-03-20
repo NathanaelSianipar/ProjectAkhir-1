@@ -117,8 +117,12 @@
     .leader-row { display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:16px; margin-bottom:28px; }
     .leader-card { background:var(--white); border:1px solid var(--border); border-radius:13px; padding:24px 18px; text-align:center; box-shadow:0 1px 5px rgba(0,0,0,.05); transition:transform .2s,box-shadow .2s; animation:fadeUp .4s ease both; }
     .leader-card:hover { transform:translateY(-3px); box-shadow:0 8px 22px rgba(0,0,0,.09); }
-    .leader-avatar { width:68px; height:68px; border-radius:50%; margin:0 auto 14px; background:linear-gradient(135deg,var(--cyan-lt),var(--cyan)); display:flex; align-items:center; justify-content:center; font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; color:var(--cyan-dk); border:3px solid var(--border); overflow:hidden; }
+    .leader-avatar { width:68px; height:68px; border-radius:50%; margin:0 auto 14px; background:linear-gradient(135deg,var(--cyan-lt),var(--cyan)); display:flex; align-items:center; justify-content:center; font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:700; color:var(--cyan-dk); border:3px solid var(--border); overflow:hidden; position:relative; cursor:pointer; transition:all .2s; }
     .leader-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+    .leader-avatar:hover .ava-overlay { opacity:1; }
+    .ava-overlay { position:absolute; inset:0; border-radius:50%; background:rgba(15,22,40,.55); display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; transition:opacity .2s; gap:2px; }
+    .ava-overlay span { font-size:16px; }
+    .ava-overlay p { font-size:8px; font-weight:700; color:#fff; letter-spacing:.3px; }
     .leader-name  { font-family:'Rajdhani',sans-serif; font-size:15px; font-weight:700; color:var(--text); margin-bottom:3px; }
     .leader-role  { font-size:11px; color:var(--muted); margin-bottom:12px; }
     .leader-card-actions { display:flex; gap:6px; justify-content:center; }
@@ -176,8 +180,21 @@
     .galeri-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
     .galeri-card { background:var(--white); border:1px solid var(--border); border-radius:12px; overflow:hidden; box-shadow:0 1px 5px rgba(0,0,0,.05); transition:transform .2s,box-shadow .2s; animation:fadeUp .4s ease both; }
     .galeri-card:hover { transform:translateY(-3px); box-shadow:0 8px 22px rgba(0,0,0,.09); }
-    .galeri-img { width:100%; height:160px; object-fit:cover; background:linear-gradient(135deg,var(--cyan-lt),var(--border)); display:flex; align-items:center; justify-content:center; font-size:36px; color:var(--muted); }
-    .galeri-img img { width:100%; height:160px; object-fit:cover; }
+    .galeri-img { width:100%; height:160px; object-fit:cover; background:linear-gradient(135deg,var(--cyan-lt),var(--border)); display:flex; align-items:center; justify-content:center; font-size:36px; color:var(--muted); position:relative; overflow:hidden; cursor:pointer; }
+    .galeri-img img { width:100%; height:160px; object-fit:cover; display:block; }
+    .galeri-img:hover .gimg-overlay { opacity:1; }
+    .gimg-overlay { position:absolute; inset:0; background:rgba(15,22,40,.55); display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; transition:opacity .2s; gap:4px; }
+    .gimg-overlay span { font-size:22px; }
+    .gimg-overlay p { font-size:10px; font-weight:700; color:#fff; letter-spacing:.3px; }
+
+    /* Drop zone in modal */
+    .photo-drop { border:2px dashed var(--border2); border-radius:9px; padding:20px; text-align:center; cursor:pointer; transition:all .18s; background:var(--bg); margin-bottom:13px; position:relative; }
+    .photo-drop:hover,.photo-drop.drag { border-color:var(--cyan); background:var(--cyan-lt); }
+    .photo-drop .pd-icon { font-size:26px; margin-bottom:6px; }
+    .photo-drop p { font-size:12.5px; color:var(--muted); }
+    .photo-drop span { color:var(--cyan); font-weight:700; }
+    .photo-drop input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+    .photo-drop .pd-preview { width:100%; height:120px; object-fit:cover; border-radius:7px; margin-top:10px; display:none; border:1px solid var(--border); }
     .galeri-body { padding:14px 16px; }
     .galeri-title { font-family:'Rajdhani',sans-serif; font-size:15px; font-weight:700; color:var(--text); margin-bottom:4px; }
     .galeri-desc  { font-size:12px; color:var(--muted); line-height:1.55; margin-bottom:10px; }
@@ -255,10 +272,10 @@
     <a href="{{ route('galeris.index') }}">Galeri</a>
     <a href="{{ route('khotbah.index') }}">Khotbah</a>
     <a href="{{ route('pelayanan.index') }}" class="active">Pelayanan</a>
-    <a href="{{ route('kontaks.index') }}">Kontak</a>
+    <a href="{{ route('kontaks.index') }}" >Kontak</a>
   </nav>
   <div class="topbar-right">
-    <a href="{{ route('home') }}"><button class="btn-viewsite">🌐 Lihat Website</button></a>
+    <button class="btn-viewsite">🌐 Lihat Website</button>
     <div class="avatar" id="tbAva">A</div>
   </div>
 </header>
@@ -284,13 +301,13 @@
     <a href="{{ route('galeris.index') }}"><span class="ico">🖼</span> Galeri</a>
     <a href="{{ route('khotbah.index') }}"><span class="ico">🎙</span> Khotbah</a>
     <a href="{{ route('pelayanan.index') }}" class="active"><span class="ico">🙌</span> Pelayanan</a>
-    <a href="{{ route('kontaks.index') }}"><span class="ico">✉</span> Kontak</a>
+    <a href="{{ route('kontaks.index') }}" ><span class="ico">✉</span> Kontak</a>
   </nav>
   <div class="nav-section">Pengaturan</div>
   <nav>
     <a href="{{ route('profil.index') }}"><span class="ico">👤</span> Profil Admin</a>
     <a href="#"><span class="ico">⚙</span> Pengaturan</a>
-    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><span class="ico">🚪</span> Keluar</a>
+    <a href="#"><span class="ico">🚪</span> Keluar</a>
   </nav>
   <div class="sidebar-footer"><strong>Kelompok 5 PA-1</strong>Version 1.0.0</div>
 </aside>
@@ -366,6 +383,15 @@
     </div>
     <div class="fg"><label>Nama Pendek *</label><input id="pPendek" type="text" placeholder="cth. Pdm. Roberto Sibarani, M.Th"/></div>
     <div class="fg"><label>Inisial Avatar (maks 2 huruf)</label><input id="pInisial" maxlength="2" type="text" placeholder="cth. RS" style="text-transform:uppercase"/></div>
+
+    <!-- Upload foto pemimpin -->
+    <div class="photo-drop" id="pdPemimpin">
+      <div class="pd-icon">📷</div>
+      <p>Klik atau drag foto pemimpin · <span>JPG/PNG maks 2MB</span></p>
+      <input type="file" id="pFotoInput" accept="image/*" onchange="onPFoto(event)"/>
+      <img id="pFotoPreview" class="pd-preview"/>
+    </div>
+
     <div class="modal-foot">
       <button class="btn-cancel" onclick="closeAll()">Batal</button>
       <button class="btn-save" onclick="savePemimpin()">💾 Simpan</button>
@@ -421,6 +447,15 @@
     <div class="fg"><label>Judul Foto *</label><input id="gJudul" type="text" placeholder="cth. Baptisan di Danau Toba"/></div>
     <div class="fg"><label>Deskripsi</label><textarea id="gDesc" rows="2" placeholder="Keterangan singkat..."></textarea></div>
     <div class="fg"><label>Ikon (emoji, tampil jika tidak ada foto)</label><input id="gIkon" maxlength="4" type="text" placeholder="cth. 💧"/></div>
+
+    <!-- Upload foto galeri -->
+    <div class="photo-drop" id="pdGaleri">
+      <div class="pd-icon">🖼</div>
+      <p>Klik atau drag foto · <span>JPG/PNG maks 5MB</span></p>
+      <input type="file" id="gFotoInput" accept="image/*" onchange="onGFoto(event)"/>
+      <img id="gFotoPreview" class="pd-preview"/>
+    </div>
+
     <div class="modal-foot">
       <button class="btn-cancel" onclick="closeAll()">Batal</button>
       <button class="btn-save" onclick="saveGaleri()">💾 Simpan</button>
@@ -469,16 +504,23 @@ function renderAll(){ renderPemimpin(); renderTim(); renderGaleri(); updateStats
 
 function renderPemimpin(){
   const g = document.getElementById('leaderGrid');
-  g.innerHTML = pemimpin.length ? pemimpin.map((p,i)=>`
+  g.innerHTML = pemimpin.length ? pemimpin.map((p,i)=>{
+    const avaContent = p.foto
+      ? `<img src="${p.foto}" alt="${esc(p.nama)}"/>`
+      : esc(p.inisial||p.nama.slice(0,2).toUpperCase());
+    return `
     <div class="leader-card" style="animation-delay:${i*.07}s">
-      <div class="leader-avatar">${esc(p.inisial||p.nama.slice(0,2).toUpperCase())}</div>
+      <div class="leader-avatar" onclick="triggerPFoto(${p.id})" title="Klik untuk ganti foto">
+        ${avaContent}
+        <div class="ava-overlay"><span>📷</span><p>Ganti Foto</p></div>
+      </div>
       <div class="leader-name">${esc(p.pendek||p.nama)}</div>
       <div class="leader-role">${esc(p.jabatan)}</div>
       <div class="leader-card-actions">
         <button class="act-sm btn-e" onclick="openEditPemimpin(${p.id})">✏ Edit</button>
         <button class="act-sm btn-d" onclick="delPemimpin(${p.id})">🗑 Hapus</button>
       </div>
-    </div>`).join('')
+    </div>`}).join('')
   : '<div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--muted);font-size:13px;background:var(--white);border:1px dashed var(--border);border-radius:12px;">Belum ada pemimpin.</div>';
 }
 
@@ -509,9 +551,16 @@ function renderTim(){
 
 function renderGaleri(){
   const g = document.getElementById('galeriGrid');
-  g.innerHTML = galeris.length ? galeris.map((f,i)=>`
+  g.innerHTML = galeris.length ? galeris.map((f,i)=>{
+    const imgContent = f.foto
+      ? `<img src="${f.foto}" alt="${esc(f.judul)}"/>`
+      : esc(f.ikon||'🖼');
+    return `
     <div class="galeri-card" style="animation-delay:${i*.06}s">
-      <div class="galeri-img">${esc(f.ikon||'🖼')}</div>
+      <div class="galeri-img" onclick="triggerGFoto(${f.id})" title="Klik untuk ganti foto">
+        ${imgContent}
+        <div class="gimg-overlay"><span>📷</span><p>Ganti Foto</p></div>
+      </div>
       <div class="galeri-body">
         <div class="galeri-title">${esc(f.judul)}</div>
         <div class="galeri-desc">${esc(f.desc)}</div>
@@ -520,7 +569,7 @@ function renderGaleri(){
           <button class="act-sm btn-d" onclick="delGaleri(${f.id})">🗑 Hapus</button>
         </div>
       </div>
-    </div>`).join('')
+    </div>`}).join('')
   : '<div style="grid-column:1/-1;text-align:center;padding:32px;color:var(--muted);font-size:13px;background:var(--white);border:1px dashed var(--border);border-radius:12px;">Belum ada foto dokumentasi.</div>';
 }
 
@@ -531,12 +580,43 @@ function updateStats(){
   document.getElementById('statFoto').textContent     = galeris.length;
 }
 
+/* ── Helpers reset drop zone ── */
+function resetPDrop(){
+  document.getElementById('pFotoPreview').style.display='none';
+  document.getElementById('pFotoPreview').src='';
+  document.getElementById('pFotoInput').value='';
+  document.getElementById('pdPemimpin').querySelector('.pd-icon').style.display='';
+  document.querySelectorAll('#pdPemimpin p').forEach(e=>e.style.display='');
+  _pFoto=null;
+}
+function resetGDrop(){
+  document.getElementById('gFotoPreview').style.display='none';
+  document.getElementById('gFotoPreview').src='';
+  document.getElementById('gFotoInput').value='';
+  document.getElementById('pdGaleri').querySelector('.pd-icon').style.display='';
+  document.querySelectorAll('#pdGaleri p').forEach(e=>e.style.display='');
+  _gFoto=null;
+}
+function showPPreview(src){
+  document.getElementById('pFotoPreview').src=src;
+  document.getElementById('pFotoPreview').style.display='block';
+  document.getElementById('pdPemimpin').querySelector('.pd-icon').style.display='none';
+  document.querySelectorAll('#pdPemimpin p').forEach(e=>e.style.display='none');
+}
+function showGPreview(src){
+  document.getElementById('gFotoPreview').src=src;
+  document.getElementById('gFotoPreview').style.display='block';
+  document.getElementById('pdGaleri').querySelector('.pd-icon').style.display='none';
+  document.querySelectorAll('#pdGaleri p').forEach(e=>e.style.display='none');
+}
+
 /* ── MODAL: OPEN ── */
 function openModal(type){
   if(type==='pemimpin'){
     editPId=null;
     document.getElementById('titlePemimpin').innerHTML='➕ Tambah <span>Pemimpin</span>';
     ['pNama','pJabatan','pPendek','pInisial'].forEach(id=>document.getElementById(id).value='');
+    resetPDrop();
     document.getElementById('modalPemimpin').classList.add('open');
   } else if(type==='tim'){
     editTId=null;
@@ -550,6 +630,7 @@ function openModal(type){
     editGId=null;
     document.getElementById('titleGaleri').innerHTML='🖼 Tambah <span>Foto</span>';
     ['gJudul','gDesc','gIkon'].forEach(id=>document.getElementById(id).value='');
+    resetGDrop();
     document.getElementById('modalGaleri').classList.add('open');
   }
 }
@@ -562,6 +643,7 @@ function openEditPemimpin(id){
   document.getElementById('pJabatan').value = p.jabatan;
   document.getElementById('pPendek').value  = p.pendek||p.nama;
   document.getElementById('pInisial').value = p.inisial||'';
+  if(p.foto){ _pFoto=p.foto; showPPreview(p.foto); } else resetPDrop();
   document.getElementById('modalPemimpin').classList.add('open');
 }
 
@@ -587,12 +669,14 @@ function openEditGaleri(id){
   document.getElementById('gJudul').value = f.judul;
   document.getElementById('gDesc').value  = f.desc||'';
   document.getElementById('gIkon').value  = f.ikon||'';
+  if(f.foto){ _gFoto=f.foto; showGPreview(f.foto); } else resetGDrop();
   document.getElementById('modalGaleri').classList.add('open');
 }
 
 function closeAll(){
   ['modalPemimpin','modalTim','modalGaleri'].forEach(id=>document.getElementById(id).classList.remove('open'));
   editPId=editTId=editGId=null;
+  resetPDrop(); resetGDrop();
 }
 
 /* ── ANGGOTA ROWS ── */
@@ -620,9 +704,10 @@ function savePemimpin(){
   const jabatan = document.getElementById('pJabatan').value.trim();
   const pendek  = document.getElementById('pPendek').value.trim() || nama;
   const inisial = document.getElementById('pInisial').value.trim().toUpperCase() || nama.slice(0,2).toUpperCase();
+  const foto    = _pFoto || '';
   if(!nama||!jabatan){ toast('Nama dan jabatan wajib diisi!','err'); return; }
-  if(editPId){ const i=pemimpin.findIndex(x=>x.id===editPId); if(i>-1) pemimpin[i]={id:editPId,nama,jabatan,pendek,inisial}; toast('Pemimpin diperbarui ✓','ok'); }
-  else { pemimpin.push({id:nextId++,nama,jabatan,pendek,inisial}); localStorage.setItem(KN,nextId); toast('Pemimpin ditambahkan ✓','ok'); }
+  if(editPId){ const i=pemimpin.findIndex(x=>x.id===editPId); if(i>-1) pemimpin[i]={id:editPId,nama,jabatan,pendek,inisial,foto}; toast('Pemimpin diperbarui ✓','ok'); }
+  else { pemimpin.push({id:nextId++,nama,jabatan,pendek,inisial,foto}); localStorage.setItem(KN,nextId); toast('Pemimpin ditambahkan ✓','ok'); }
   save(KP,pemimpin); renderAll(); closeAll();
 }
 
@@ -642,9 +727,10 @@ function saveGaleri(){
   const judul = document.getElementById('gJudul').value.trim();
   const desc  = document.getElementById('gDesc').value.trim();
   const ikon  = document.getElementById('gIkon').value.trim()||'🖼';
+  const foto  = _gFoto || '';
   if(!judul){ toast('Judul foto wajib diisi!','err'); return; }
-  if(editGId){ const i=galeris.findIndex(x=>x.id===editGId); if(i>-1) galeris[i]={id:editGId,judul,desc,ikon}; toast('Foto diperbarui ✓','ok'); }
-  else { galeris.push({id:nextId++,judul,desc,ikon}); localStorage.setItem(KN,nextId); toast('Foto ditambahkan ✓','ok'); }
+  if(editGId){ const i=galeris.findIndex(x=>x.id===editGId); if(i>-1) galeris[i]={id:editGId,judul,desc,ikon,foto}; toast('Foto diperbarui ✓','ok'); }
+  else { galeris.push({id:nextId++,judul,desc,ikon,foto}); localStorage.setItem(KN,nextId); toast('Foto ditambahkan ✓','ok'); }
   save(KG,galeris); renderAll(); closeAll();
 }
 
@@ -652,6 +738,81 @@ function saveGaleri(){
 function delPemimpin(id){ if(!confirm('Hapus pemimpin ini?')) return; pemimpin=pemimpin.filter(x=>x.id!==id); save(KP,pemimpin); renderAll(); toast('Pemimpin dihapus','err'); }
 function delTim(id){ if(!confirm('Hapus tim ini?')) return; tims=tims.filter(x=>x.id!==id); save(KT,tims); renderAll(); toast('Tim dihapus','err'); }
 function delGaleri(id){ if(!confirm('Hapus foto ini?')) return; galeris=galeris.filter(x=>x.id!==id); save(KG,galeris); renderAll(); toast('Foto dihapus','err'); }
+
+/* ── FOTO UPLOAD VARS ── */
+let _pFoto = null; // foto pemimpin sementara
+let _gFoto = null; // foto galeri sementara
+
+/* ── FILE INPUT HANDLERS ── */
+function onPFoto(e){
+  const f=e.target.files[0]; if(!f) return;
+  if(f.size>2*1024*1024){ toast('File terlalu besar! Maks 2MB','err'); return; }
+  const r=new FileReader();
+  r.onload=ev=>{ _pFoto=ev.target.result; showPPreview(_pFoto); };
+  r.readAsDataURL(f);
+}
+function onGFoto(e){
+  const f=e.target.files[0]; if(!f) return;
+  if(f.size>5*1024*1024){ toast('File terlalu besar! Maks 5MB','err'); return; }
+  const r=new FileReader();
+  r.onload=ev=>{ _gFoto=ev.target.result; showGPreview(_gFoto); };
+  r.readAsDataURL(f);
+}
+
+/* ── QUICK PHOTO (klik avatar/galeri langsung) ── */
+let _quickPId=null, _quickGId=null;
+function triggerPFoto(id){
+  _quickPId=id;
+  const inp=document.createElement('input');
+  inp.type='file'; inp.accept='image/*';
+  inp.onchange=e=>{
+    const f=e.target.files[0]; if(!f) return;
+    if(f.size>2*1024*1024){ toast('Maks 2MB','err'); return; }
+    const r=new FileReader();
+    r.onload=ev=>{
+      const idx=pemimpin.findIndex(x=>x.id===_quickPId);
+      if(idx>-1){ pemimpin[idx].foto=ev.target.result; save(KP,pemimpin); renderAll(); toast('Foto pemimpin diperbarui ✓','ok'); }
+    };
+    r.readAsDataURL(f);
+  };
+  inp.click();
+}
+function triggerGFoto(id){
+  _quickGId=id;
+  const inp=document.createElement('input');
+  inp.type='file'; inp.accept='image/*';
+  inp.onchange=e=>{
+    const f=e.target.files[0]; if(!f) return;
+    if(f.size>5*1024*1024){ toast('Maks 5MB','err'); return; }
+    const r=new FileReader();
+    r.onload=ev=>{
+      const idx=galeris.findIndex(x=>x.id===_quickGId);
+      if(idx>-1){ galeris[idx].foto=ev.target.result; save(KG,galeris); renderAll(); toast('Foto berhasil diperbarui ✓','ok'); }
+    };
+    r.readAsDataURL(f);
+  };
+  inp.click();
+}
+
+/* drag-drop untuk drop zone pemimpin */
+const pdP=document.getElementById('pdPemimpin');
+pdP.addEventListener('dragover',e=>{e.preventDefault();pdP.classList.add('drag');});
+pdP.addEventListener('dragleave',()=>pdP.classList.remove('drag'));
+pdP.addEventListener('drop',e=>{
+  e.preventDefault();pdP.classList.remove('drag');
+  const f=e.dataTransfer.files[0]; if(!f||!f.type.startsWith('image/')) return;
+  const fakeE={target:{files:[f]}}; onPFoto(fakeE);
+});
+
+/* drag-drop untuk drop zone galeri */
+const pdG=document.getElementById('pdGaleri');
+pdG.addEventListener('dragover',e=>{e.preventDefault();pdG.classList.add('drag');});
+pdG.addEventListener('dragleave',()=>pdG.classList.remove('drag'));
+pdG.addEventListener('drop',e=>{
+  e.preventDefault();pdG.classList.remove('drag');
+  const f=e.dataTransfer.files[0]; if(!f||!f.type.startsWith('image/')) return;
+  const fakeE={target:{files:[f]}}; onGFoto(fakeE);
+});
 
 /* ── TOAST ── */
 function toast(msg,type='ok'){

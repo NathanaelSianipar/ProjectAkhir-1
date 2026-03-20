@@ -248,16 +248,16 @@
     <a class="brand" href="#"><div class="brand-logo">GBI</div><span class="brand-name">GBI <span>Tambunan</span></span></a>
   </div>
   <nav class="topbar-nav">
-    <a href="{{ route('welcome') }}"><span class="ico">⊞</span> Dashboard</a>
-    <a href="{{ route('tentang.index') }}"><span class="ico">ℹ</span> Tentang Kami</a>
-    <a href="{{ route('jadwals.index') }}"><span class="ico">📅</span> Jadwal Ibadah</a>
-    <a href="{{ route('galeris.index') }}"><span class="ico">🖼</span> Galeri</a>
-    <a href="{{ route('khotbah.index') }}"><span class="ico">🎙</span> Khotbah</a>
-    <a href="{{ route('pelayanan.index') }}"><span class="ico">🙌</span> Pelayanan</a>
-    <a href="{{ route('kontaks.index') }}"><span class="ico">✉</span> Kontak</a>
+    <a href="{{ route('welcome') }}">Beranda</a>
+    <a href="{{ route('tentang.index') }}">Tentang Kami</a>
+    <a href="{{ route('jadwals.index') }}">Jadwal Ibadah</a>
+    <a href="{{ route('galeris.index') }}" class="active">Galeri</a>
+    <a href="{{ route('khotbah.index') }}">Khotbah</a>
+    <a href="{{ route('pelayanan.index') }}">Pelayanan</a>
+    <a href="{{ route('kontaks.index') }}">Kontak</a>
   </nav>
   <div class="topbar-right">
-    <a href="{{ route('home') }}"><button class="btn-viewsite">🌐 Lihat Website</button></a>
+    <button class="btn-viewsite">🌐 Lihat Website</button>
     <div class="avatar" id="tbAva">A</div>
   </div>
 </header>
@@ -274,7 +274,7 @@
     <a href="{{ route('welcome') }}"><span class="ico">⊞</span> Dashboard</a>
     <a href="{{ route('tentang.index') }}"><span class="ico">ℹ</span> Tentang Kami</a>
     <a href="{{ route('jadwals.index') }}"><span class="ico">📅</span> Jadwal Ibadah</a>
-    <a href="{{ route('galeris.index') }}"><span class="ico">🖼</span> Galeri</a>
+    <a href="{{ route('galeris.index') }}" class="active"><span class="ico">🖼</span> Galeri</a>
     <a href="{{ route('khotbah.index') }}"><span class="ico">🎙</span> Khotbah</a>
     <a href="{{ route('pelayanan.index') }}"><span class="ico">🙌</span> Pelayanan</a>
     <a href="{{ route('kontaks.index') }}"><span class="ico">✉</span> Kontak</a>
@@ -592,6 +592,10 @@ document.getElementById('ov').addEventListener('click',function(e){if(e.target==
 
 render();
 </script>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none">
+  @csrf
+</form>
+
 <script>
 /* ── PROFILE SYNC ── */
 (function(){

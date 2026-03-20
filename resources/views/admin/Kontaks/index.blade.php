@@ -421,7 +421,7 @@
   </div>
   <div class="nav-section">Menu Utama</div>
   <nav>
-    <a href="{{ route('welcome') }}"><span class="ico">⊞</span> Beranda</a>
+    <a href="{{ route('welcome') }}"><span class="ico">⊞</span> Dashboard</a>
     <a href="{{ route('tentang.index') }}"><span class="ico">ℹ</span> Tentang Kami</a>
     <a href="{{ route('jadwals.index') }}"><span class="ico">📅</span> Jadwal Ibadah</a>
     <a href="{{ route('galeris.index') }}"><span class="ico">🖼</span> Galeri</a>

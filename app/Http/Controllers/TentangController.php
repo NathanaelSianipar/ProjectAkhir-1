@@ -9,7 +9,7 @@ class TentangController extends Controller
     public function index()
     {
         $Tentang = Tentang::all();
-        return view('admin.tentang.index', compact('Tentang'));
+        return view('admin.tentang.index', compact('data'));
     }
 
     public function create()

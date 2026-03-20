@@ -339,7 +339,7 @@
     </a>
   </div>
   <nav class="topbar-nav">
-    <a href="{{ route('welcome') }}">Beranda</a><a href="{{ route('tentang.index') }}">Tentang Kami</a><a href="{{ route('jadwals.index') }}">Jadwal Ibadah</a>
+    <a href="{{ route('welcome') }}">Dashboard</a><a href="{{ route('tentang.index') }}">Tentang Kami</a><a href="{{ route('jadwals.index') }}">Jadwal Ibadah</a>
     <a href="{{ route('galeris.index') }}">Galeri</a><a href="{{ route('khotbah.index') }}">Khotbah</a><a href="{{ route('pelayanan.index') }}">Pelayanan</a><a href="{{ route('kontaks.index') }}">Kontak</a>
   </nav>
   <div class="topbar-right">

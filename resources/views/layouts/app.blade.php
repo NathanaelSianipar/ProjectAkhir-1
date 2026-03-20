@@ -21,7 +21,7 @@
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menuNav"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="menuNav">
         <ul class="navbar-nav ms-auto menu-navbar align-items-center">
-            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('welcome') }}">Beranda</a></li>
+            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('home') }}">Beranda</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.tentang') }}">Tentang Kami</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.jadwal') }}">Jadwal</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.galeri') }}">Galeri</a></li>

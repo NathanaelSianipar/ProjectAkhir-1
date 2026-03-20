@@ -252,8 +252,31 @@
       font-size:26px; font-weight:700; color:var(--cyan-dk);
       border:3px solid var(--border);
       font-family:'Rajdhani',sans-serif;
+      overflow:hidden; position:relative; cursor:pointer; transition:all .2s;
     }
     .leader-avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+    .leader-avatar:hover .ava-ol { opacity:1; }
+    .ava-ol {
+      position:absolute; inset:0; border-radius:50%;
+      background:rgba(15,22,40,.55);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      opacity:0; transition:opacity .2s; gap:2px;
+    }
+    .ava-ol span { font-size:16px; }
+    .ava-ol p { font-size:8px; font-weight:700; color:#fff; letter-spacing:.3px; }
+
+    /* Drop zone foto di modal */
+    .photo-drop {
+      border:2px dashed var(--border2); border-radius:9px; padding:20px;
+      text-align:center; cursor:pointer; transition:all .18s;
+      background:var(--bg); margin-bottom:14px; position:relative;
+    }
+    .photo-drop:hover,.photo-drop.drag { border-color:var(--cyan); background:var(--cyan-lt); }
+    .photo-drop .pd-ico { font-size:26px; margin-bottom:6px; }
+    .photo-drop p { font-size:12.5px; color:var(--muted); }
+    .photo-drop span { color:var(--cyan); font-weight:700; }
+    .photo-drop input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+    .photo-drop .pd-prev { width:100%; height:110px; object-fit:cover; border-radius:7px; margin-top:10px; display:none; border:1px solid var(--border); }
     .leader-name  { font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:700; color:var(--text); margin-bottom:4px; }
     .leader-role  {
       display:inline-block; font-size:11px; font-weight:700; letter-spacing:.6px;
@@ -294,6 +317,7 @@
       background:var(--white); border:1px solid var(--border); border-radius:14px;
       padding:28px; width:520px; max-width:94vw;
       box-shadow:0 20px 60px rgba(0,0,0,.15); animation:mIn .22s ease;
+      max-height:92vh; overflow-y:auto;
     }
     @keyframes mIn { from{opacity:0;transform:translateY(12px) scale(.97)} to{opacity:1;transform:translateY(0) scale(1)} }
     .modal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
@@ -359,16 +383,6 @@
     .sidebar-user .ava img { width:100%; height:100%; object-fit:cover; }
     .avatar { overflow: hidden; }
     .avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
-
-    /* animasi sidebar */
-.sidebar{
-    transition: transform 0.3s ease;
-}
-
-/* ketika sidebar ditutup */
-.sidebar.hide{
-    transform: translateX(-100%);
-}
   </style>
 </head>
 <body>
@@ -376,7 +390,7 @@
 <!-- TOPBAR -->
 <header class="topbar">
   <div class="topbar-left">
-    <button class="hamburger" id="menu-toggle">☰</button>
+    <button class="hamburger">☰</button>
     <a class="brand" href="#">
       <div class="brand-logo">GBI</div>
       <span class="brand-name">GBI <span>Tambunan</span></span>
@@ -384,7 +398,7 @@
   </div>
   <nav class="topbar-nav">
     <a href="{{ route('welcome') }}">Beranda</a>
-    <a href="#" class="active">Tentang Kami</a>
+    <a href="{{ route('tentang.index') }}" class="active">Tentang Kami</a>
     <a href="{{ route('jadwals.index') }}">Jadwal Ibadah</a>
     <a href="{{ route('galeris.index') }}">Galeri</a>
     <a href="{{ route('khotbah.index') }}">Khotbah</a>
@@ -392,7 +406,7 @@
     <a href="{{ route('kontaks.index') }}">Kontak</a>
   </nav>
   <div class="topbar-right">
-    <a href="{{ route('home') }}"><button class="btn-viewsite">🌐 Lihat Website</button></a>
+    <button class="btn-viewsite">🌐 Lihat Website</button>
     <div class="avatar" id="tbAva">A</div>
   </div>
 </header>
@@ -418,13 +432,13 @@
     <a href="{{ route('galeris.index') }}"><span class="ico">🖼</span> Galeri</a>
     <a href="{{ route('khotbah.index') }}"><span class="ico">🎙</span> Khotbah</a>
     <a href="{{ route('pelayanan.index') }}"><span class="ico">🙌</span> Pelayanan</a>
-    <a href="{{ route('kontaks.index') }}"><span class="ico">✉</span> Kontak</a>
+    <a href="{{ route('kontaks.index') }}" ><span class="ico">✉</span> Kontak</a>
   </nav>
   <div class="nav-section">Pengaturan</div>
   <nav>
     <a href="{{ route('profil.index') }}"><span class="ico">👤</span> Profil Admin</a>
     <a href="#"><span class="ico">⚙</span> Pengaturan</a>
-    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><span class="ico">🚪</span> Keluar</a>
+    <a href="#"><span class="ico">🚪</span> Keluar</a>
   </nav>
   <div class="sidebar-footer"><strong>Kelompok 5 PA-1</strong>Version 1.0.0</div>
 </aside>
@@ -601,6 +615,15 @@
       <label>Inisial Avatar (maks. 2 huruf)</label>
       <input id="lInisial" type="text" maxlength="2" placeholder="cth. RS" style="text-transform:uppercase;"/>
     </div>
+
+    <!-- Upload foto pemimpin -->
+    <div class="photo-drop" id="pdLeader">
+      <div class="pd-ico">📷</div>
+      <p>Klik atau drag foto pemimpin · <span>JPG/PNG maks 2MB</span></p>
+      <input type="file" id="lFotoInput" accept="image/*" onchange="onLFoto(event)"/>
+      <img id="lFotoPreview" class="pd-prev"/>
+    </div>
+
     <div class="modal-foot">
       <button class="btn-cancel" onclick="closeModal('leader')">Batal</button>
       <button class="btn-save" onclick="saveLeader()">💾 Simpan</button>
@@ -609,6 +632,8 @@
 </div>
 
 <div class="toast" id="toast"></div>
+
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none">@csrf</form>
 
 <script>
   // ── Storage keys ──
@@ -646,9 +671,16 @@
       grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:40px;color:var(--muted);font-size:13px;background:var(--white);border:1px solid var(--border);border-radius:12px;">Belum ada data pemimpin. Klik <strong>Tambah Pemimpin</strong>.</div>`;
       return;
     }
-    grid.innerHTML = leaders.map((l, i) => `
+    grid.innerHTML = leaders.map((l, i) => {
+      const avaContent = l.foto
+        ? `<img src="${l.foto}" alt="${esc(l.nama)}"/>`
+        : esc(l.inisial || l.nama.slice(0,2).toUpperCase());
+      return `
       <div class="leader-card" style="animation-delay:${i*0.07}s">
-        <div class="leader-avatar">${esc(l.inisial || l.nama.slice(0,2).toUpperCase())}</div>
+        <div class="leader-avatar" onclick="quickFotoLeader(${i})" title="Klik untuk ganti foto">
+          ${avaContent}
+          <div class="ava-ol"><span>📷</span><p>Ganti Foto</p></div>
+        </div>
         <div class="leader-name">${esc(l.nama)}</div>
         <div class="leader-role">${esc(l.jabatan)}</div>
         <div class="leader-desc">${esc(l.desc)}</div>
@@ -656,7 +688,7 @@
           <button class="edit-btn" onclick="openModal('editLeader',${i})">✏ Edit</button>
           <button class="edit-btn" style="background:var(--danger-lt);color:var(--danger);border-color:rgba(224,85,85,.25);" onclick="removeLeader(${i})">🗑 Hapus</button>
         </div>
-      </div>`).join('');
+      </div>`}).join('');
   }
 
   // ── Modals ──
@@ -675,6 +707,7 @@
       document.getElementById('lJabatan').value = '';
       document.getElementById('lDesc').value = '';
       document.getElementById('lInisial').value = '';
+      resetLDrop();
       document.getElementById('modalLeader').classList.add('open');
     } else if (type === 'editLeader') {
       editLeaderIdx = idx;
@@ -684,6 +717,7 @@
       document.getElementById('lJabatan').value = l.jabatan;
       document.getElementById('lDesc').value    = l.desc;
       document.getElementById('lInisial').value = l.inisial || '';
+      if(l.foto){ _lFoto=l.foto; showLPreview(l.foto); } else resetLDrop();
       document.getElementById('modalLeader').classList.add('open');
     }
   }
@@ -691,6 +725,7 @@
   function closeModal(type) {
     const ids = { sejarah:'modalSejarah', visimisi:'modalVisimisi', leader:'modalLeader' };
     document.getElementById(ids[type] || 'modalLeader').classList.remove('open');
+    if(type==='leader') resetLDrop();
   }
 
   // ── Save Sejarah ──
@@ -723,12 +758,13 @@
     const jabatan = document.getElementById('lJabatan').value.trim();
     const desc    = document.getElementById('lDesc').value.trim();
     const inisial = document.getElementById('lInisial').value.trim().toUpperCase() || nama.slice(0,2).toUpperCase();
+    const foto    = _lFoto || '';
     if (!nama || !jabatan) { toast('Nama dan jabatan wajib diisi!','err'); return; }
     if (editLeaderIdx !== null) {
-      leaders[editLeaderIdx] = { ...leaders[editLeaderIdx], nama, jabatan, desc, inisial };
+      leaders[editLeaderIdx] = { ...leaders[editLeaderIdx], nama, jabatan, desc, inisial, foto };
       toast('Data pemimpin berhasil diperbarui ✓','ok');
     } else {
-      leaders.push({ id: nextId++, nama, jabatan, desc, inisial });
+      leaders.push({ id: nextId++, nama, jabatan, desc, inisial, foto });
       save(K.nextid, nextId);
       toast('Pemimpin baru berhasil ditambahkan ✓','ok');
     }
@@ -759,6 +795,60 @@
   document.querySelectorAll('.overlay').forEach(el => {
     el.addEventListener('click', function(e) { if (e.target===this) this.classList.remove('open'); });
   });
+
+  /* ── FOTO PEMIMPIN ── */
+  let _lFoto = null;
+
+  function resetLDrop(){
+    _lFoto = null;
+    document.getElementById('lFotoPreview').style.display='none';
+    document.getElementById('lFotoPreview').src='';
+    document.getElementById('lFotoInput').value='';
+    document.getElementById('pdLeader').querySelector('.pd-ico').style.display='';
+    document.querySelectorAll('#pdLeader p').forEach(e=>e.style.display='');
+  }
+  function showLPreview(src){
+    document.getElementById('lFotoPreview').src=src;
+    document.getElementById('lFotoPreview').style.display='block';
+    document.getElementById('pdLeader').querySelector('.pd-ico').style.display='none';
+    document.querySelectorAll('#pdLeader p').forEach(e=>e.style.display='none');
+  }
+  function onLFoto(e){
+    const f=e.target.files[0]; if(!f) return;
+    if(f.size>2*1024*1024){ toast('File terlalu besar! Maks 2MB','err'); return; }
+    const r=new FileReader();
+    r.onload=ev=>{ _lFoto=ev.target.result; showLPreview(_lFoto); };
+    r.readAsDataURL(f);
+  }
+
+  /* Drag-drop pada drop zone */
+  const pdL=document.getElementById('pdLeader');
+  pdL.addEventListener('dragover',e=>{e.preventDefault();pdL.classList.add('drag');});
+  pdL.addEventListener('dragleave',()=>pdL.classList.remove('drag'));
+  pdL.addEventListener('drop',e=>{
+    e.preventDefault();pdL.classList.remove('drag');
+    const f=e.dataTransfer.files[0]; if(!f||!f.type.startsWith('image/')) return;
+    onLFoto({target:{files:[f]}});
+  });
+
+  /* Klik langsung pada avatar (quick change tanpa buka modal) */
+  function quickFotoLeader(idx){
+    const inp=document.createElement('input');
+    inp.type='file'; inp.accept='image/*';
+    inp.onchange=e=>{
+      const f=e.target.files[0]; if(!f) return;
+      if(f.size>2*1024*1024){ toast('Maks 2MB','err'); return; }
+      const r=new FileReader();
+      r.onload=ev=>{
+        leaders[idx].foto=ev.target.result;
+        save(K.leaders, leaders);
+        renderLeaders();
+        toast('Foto pemimpin diperbarui ✓','ok');
+      };
+      r.readAsDataURL(f);
+    };
+    inp.click();
+  }
 </script>
 
 <script>
@@ -787,10 +877,6 @@
   window.addEventListener('storage', e=>{ if(e.key===KEY) sync(); });
   window.addEventListener('focus', sync);
   document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') sync(); });
-
-  document.getElementById("menu-toggle").onclick = function () {
-    document.querySelector(".sidebar").classList.toggle("hide");
-};
 })();
 </script>
 </body>

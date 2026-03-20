@@ -83,39 +83,39 @@ Route::get('/Profil.edit/{id}', [ProfilController::class, 'edit'])->name('profil
 Route::put('/Profil.update/{id}', [ProfilController::class, 'update'])->name('profil.update');
 });
 
-Route::get('/tentang', function () {
-        return view('Tentang.TentangKami');
+Route::get('/Tentang', function () {
+        return view('User.Tentang.TentangKami');
     })->name('user.tentang');
 
-    Route::get('/jadwal', function () {
+    Route::get('/Jadwal', function () {
         return view('Jadwal.Jadwal');
     })->name('user.jadwal');
 
-    Route::get('/galeri', function () {
+    Route::get('/Galeri', function () {
         return view('Galeri.Galeri');
     })->name('user.galeri');
 
-    Route::get('/khotbah', function () {
+    Route::get('/Khotbah', function () {
         return view('Khotbah.Khotbah');
     })->name('user.khotbah');
 
-    Route::get('/pelayanan', function () {
+    Route::get('/Pelayanan', function () {
         return view('Pelayanan.Pelayanan');
     })->name('user.pelayanan');
 
-    Route::get('/kontak', function () {
+    Route::get('/Kontak', function () {
         return view('Kontak.kontak');
     })->name('user.kontak');
 
-    Route::get('/jemaat', function () {
+    Route::get('/Jemaat', function () {
         return view('Jemaat.DaftarJemaat');
     })->name('user.jemaat');
 
-    Route::get('/gereja', function () {
+    Route::get('/Gereja', function () {
         return view('gereja');
     })->name('user.gereja');
 
-    Route::get('/ibadah', function () {
+    Route::get('/Ibadah', function () {
         return view('ibadah');
     })->name('user.ibadah');
 
