@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Pelayanan extends Model
 {
     use HasFactory;
 
-    protected $table = 'Pelayanan';
+    protected $table = 'pelayanan';
 
     protected $fillable = [
         'title',
@@ -17,6 +18,11 @@ class Pelayanan extends Model
         'leader',
         'description',
         'icon',
-        'photo'
+        'photo',
     ];
+
+    public function getPhotoUrlAttribute()
+    {
+        return $this->photo ? Storage::url($this->photo) : null;
+    }
 }

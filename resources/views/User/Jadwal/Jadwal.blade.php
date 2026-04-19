@@ -2,71 +2,6 @@
 
 @section('content')
 
-<?php
-$jadwalMingguan = [
-    "Minggu" => [
-        [
-            "judul" => "Ibadah Sesi 1 + Sekolah Minggu",
-            "jam" => "09:00 WIB",
-            "lokasi" => "GBI Tambunan",
-            "deskripsi" => "Ibadah umum disertai dengan Sekolah Minggu untuk anak-anak.",
-            "icon" => "bi bi-people-fill",
-            "color" => "primary"
-        ],
-        [
-            "judul" => "Ibadah Sesi 2",
-            "jam" => "11:00 WIB",
-            "lokasi" => "GBI Tambunan",
-            "deskripsi" => "Ibadah umum untuk seluruh jemaat dengan pelayanan pujian.",
-            "icon" => "bi bi-mic-fill",
-            "color" => "success"
-        ],
-        [
-            "judul" => "Ibadah Sesi 3",
-            "jam" => "16:00 WIB",
-            "lokasi" => "Pod. Pdt Situmorang",
-            "deskripsi" => "Ibadah sore di lokasi pos pelayanan dengan suasana kekeluargaan.",
-            "icon" => "bi bi-house-door-fill",
-            "color" => "warning"
-        ],
-    ],
-    "Sabtu" => [
-        [
-            "judul" => "Doa Puasa",
-            "jam" => "10:00 - 12:00 WIB",
-            "lokasi" => "GBI Tambunan",
-            "deskripsi" => "Waktu khusus untuk berdoa dan berpuasa bersama.",
-            "icon" => "bi bi-heart-fill",
-            "color" => "danger"
-        ],
-        [
-            "judul" => "Menara Doa",
-            "jam" => "15:00 WIB",
-            "lokasi" => "GBI Tambunan",
-            "deskripsi" => "Persekutuan doa untuk berbagai kebutuhan jemaat.",
-            "icon" => "bi bi-hand-thumbs-up-fill",
-            "color" => "info"
-        ],
-        [
-            "judul" => "Next Gen (Pemuda)",
-            "jam" => "19:00 WIB",
-            "lokasi" => "GBI Tambunan",
-            "deskripsi" => "Persekutuan khusus generasi muda, pujian, sharing, dan firman Tuhan.",
-            "icon" => "bi bi-lightning-charge-fill",
-            "color" => "secondary"
-        ],
-    ]
-];
-
-$acaraKhusus = [
-    ["judul"=>"Retreat Jemaat","deskripsi"=>"Acara khusus untuk pendalaman rohani dan persekutuan.","badge"=>"Tahunan","color"=>"primary","icon"=>"bi bi-calendar2-check-fill"],
-    ["judul"=>"Perayaan Natal","deskripsi"=>"Perayaan kelahiran Yesus Kristus bersama jemaat.","badge"=>"Desember","color"=>"danger","icon"=>"bi bi-star-fill"],
-    ["judul"=>"Perayaan Paskah","deskripsi"=>"Perayaan kebangkitan Yesus Kristus.","badge"=>"Maret/April","color"=>"success","icon"=>"bi bi-sunrise-fill"],
-    ["judul"=>"Baptisan","deskripsi"=>"Sakramen baptisan bagi yang percaya dan siap dibaptis.","badge"=>"Sesuai kebutuhan","color"=>"info","icon"=>"bi bi-droplet-fill"],
-    ["judul"=>"Pernikahan","deskripsi"=>"Pemberkatan pernikahan Kristen untuk pasangan jemaat.","badge"=>"Sesuai permintaan","color"=>"warning","icon"=>"bi bi-heart-fill"],
-];
-?>
-
 <style>
 body {
     background: #f4f9ff;
@@ -163,36 +98,41 @@ body {
     </div>
 
     <div class="container mt-5">
-        <?php foreach ($jadwalMingguan as $hari => $kegiatanList): ?>
-            <h4 class="fw-bold text-center mb-4"><?= $hari ?></h4>
+        @forelse ($jadwalMingguan as $hari => $kegiatanList)
+            <h4 class="fw-bold text-center mb-4">{{ $hari }}</h4>
             <div class="row g-4 justify-content-center mb-5">
-                <?php foreach ($kegiatanList as $kegiatan): ?>
+                @foreach ($kegiatanList as $kegiatan)
                     <div class="col-md-4">
                         <div class="card-modern text-start">
-                            <div class="icon-modern bg-<?= $kegiatan['color'] ?> bg-opacity-25 text-<?= $kegiatan['color'] ?>">
-                                <i class="<?= $kegiatan['icon'] ?>"></i>
+                            <div class="icon-modern bg-primary bg-opacity-25 text-primary">
+                                <i class="{{ $kegiatan->icon ?: 'bi bi-calendar-event' }}"></i>
                             </div>
 
-                            <h6 class="fw-bold mb-2"><?= $kegiatan['judul'] ?></h6>
+                            <h6 class="fw-bold mb-2">{{ $kegiatan->title }}</h6>
 
                             <p class="text-muted small mb-1">
-                                <i class="bi bi-clock"></i> <?= $kegiatan['jam'] ?>
+                                <i class="bi bi-clock"></i>
+                                {{ $kegiatan->start_time }}{{ $kegiatan->end_time ? ' - ' . $kegiatan->end_time : '' }} WIB
                             </p>
 
                             <p class="text-muted small mb-2">
-                                <i class="bi bi-geo-alt"></i> <?= $kegiatan['lokasi'] ?>
+                                <i class="bi bi-geo-alt"></i> {{ $kegiatan->location ?: '-' }}
                             </p>
 
-                            <p class="text-muted small"><?= $kegiatan['deskripsi'] ?></p>
+                            <p class="text-muted small">{{ $kegiatan->description }}</p>
 
-                            <a href="#" class="btn btn-outline-<?= $kegiatan['color'] ?> btn-modern mt-2">
+                            <a href="#" class="btn btn-outline-primary btn-modern mt-2">
                                 Lihat Detail →
                             </a>
                         </div>
                     </div>
-                <?php endforeach; ?>
+                @endforeach
             </div>
-        <?php endforeach; ?>
+        @empty
+            <div class="text-center">
+                <p>Belum ada jadwal mingguan.</p>
+            </div>
+        @endforelse
     </div>
 </section>
 
@@ -205,22 +145,26 @@ body {
 
     <div class="container mt-5">
         <div class="row g-4 justify-content-center">
-            <?php foreach ($acaraKhusus as $acara): ?>
+            @forelse ($acaraKhusus as $acara)
                 <div class="col-md-4">
                     <div class="card-modern text-start">
-                        <div class="icon-modern bg-<?= $acara['color'] ?> bg-opacity-25 text-<?= $acara['color'] ?>">
-                            <i class="<?= $acara['icon'] ?>"></i>
+                        <div class="icon-modern bg-primary bg-opacity-25 text-primary">
+                            <i class="{{ $acara->icon ?: 'bi bi-calendar2-check-fill' }}"></i>
                         </div>
 
-                        <h6 class="fw-bold mb-2"><?= $acara['judul'] ?></h6>
-                        <p class="text-muted small"><?= $acara['deskripsi'] ?></p>
+                        <h6 class="fw-bold mb-2">{{ $acara->title }}</h6>
+                        <p class="text-muted small">{{ $acara->description }}</p>
 
-                        <span class="badge bg-<?= $acara['color'] ?> badge-modern">
-                            <?= $acara['badge'] ?>
+                        <span class="badge bg-primary badge-modern">
+                            {{ $acara->day ?: 'Acara Khusus' }}
                         </span>
                     </div>
                 </div>
-            <?php endforeach; ?>
+            @empty
+                <div class="text-center">
+                    <p>Belum ada acara khusus.</p>
+                </div>
+            @endforelse
         </div>
     </div>
 </section>

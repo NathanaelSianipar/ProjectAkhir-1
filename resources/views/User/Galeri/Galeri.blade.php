@@ -123,69 +123,23 @@
 
         <!-- GRID -->
         <div class="row g-4">
-
-            <!-- ITEM 1 -->
+            @forelse($galeris as $item)
             <div class="col-md-6 col-lg-4">
                 <div class="gallery-item">
-                    <span class="gallery-date">2024-12-31</span>
+                    <span class="gallery-date">
+                        {{ $item->event_date ? \Carbon\Carbon::parse($item->event_date)->format('Y-m-d') : '-' }}
+                    </span>
                     <div class="gallery-thumb">
-                        <img src="{{ asset('gambar/1.webp') }}" loading="lazy">
+                        <img src="{{ asset('storage/' . $item->image) }}" loading="lazy" alt="{{ $item->title }}">
                     </div>
                 </div>
             </div>
-
-            <!-- ITEM 2 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="gallery-item">
-                    <span class="gallery-date">2026-02-14</span>
-                    <div class="gallery-thumb">
-                        <img src="{{ asset('gambar/2.webp') }}" loading="lazy">
-                    </div>
-                </div>
+            @empty
+            <div class="col-12 text-center">
+                <p>Belum ada data galeri.</p>
             </div>
-
-            <!-- ITEM 3 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="gallery-item">
-                    <span class="gallery-date">2026-02-13</span>
-                    <div class="gallery-thumb">
-                        <img src="{{ asset('gambar/3.webp') }}" loading="lazy">
-                    </div>
-                </div>
-            </div>
-
-            <!-- ITEM 4 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="gallery-item">
-                    <span class="gallery-date">2026-02-12</span>
-                    <div class="gallery-thumb">
-                        <img src="{{ asset('gambar/4.webp') }}" loading="lazy">
-                    </div>
-                </div>
-            </div>
-
-            <!-- ITEM 5 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="gallery-item">
-                    <span class="gallery-date">2026-02-10</span>
-                    <div class="gallery-thumb">
-                        <img src="{{ asset('gambar/5.webp') }}" loading="lazy">
-                    </div>
-                </div>
-            </div>
-
-            <!-- ITEM 6 -->
-            <div class="col-md-6 col-lg-4">
-                <div class="gallery-item">
-                    <span class="gallery-date">2026-02-08</span>
-                    <div class="gallery-thumb">
-                        <img src="{{ asset('gambar/6.webp') }}" loading="lazy">
-                    </div>
-                </div>
-            </div>
-
+            @endforelse
         </div>
-
     </div>
 </section>
 

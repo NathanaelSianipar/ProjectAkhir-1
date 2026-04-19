@@ -1,0 +1,30 @@
+/* Admin Panel Styles - Dark Theme */
+:root {
+  --bg: #f4f6f9;
+  --white: #ffffff;
+  --border: #e4e8ef;
+  --border2: #d0d7e3;
+  --text: #1a2233;
+  --muted: #7a8499;
+  --cyan: #1da8e0;
+  --cyan-dk: #0d85b5;
+  --cyan-lt: #e8f6fd;
+  --gold: #c89b3c;
+  --gold-lt: #fdf6e3;
+  --danger: #e05555;
+  --danger-lt: #fdf0f0;
+  --success: #2ea86a;
+  --success-lt: #e8f7ef;
+  --purple: #8b5cf6;
+  --purple-lt: #f3f0ff;
+  --sidebar: #1e2430;
+}
+
+/* Topbar, Sidebar, Cards - from admin/Galeris/index.blade.php */
+.topbar { /* styles... */ }
+.sidebar { /* styles... */ }
+/* Include full styles from previous admin inline CSS when needed */
+/* AdminLTE overrides */
+.content-wrapper { background: var(--bg); }
+.card { border: none; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+

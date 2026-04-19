@@ -8,23 +8,20 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('Pelayanan', function (Blueprint $table) {
+        Schema::create('pelayanan', function (Blueprint $table) {
             $table->id();
-
-            $table->string('title');           // Nama pelayanan (Tim Musik, Tim Multimedia)
-            $table->string('category');        // kepemimpinan / tim / aksi
-            $table->string('leader')->nullable(); // Ketua tim
-            $table->text('description')->nullable(); // Deskripsi pelayanan
-
-            $table->string('icon')->nullable();   // icon pelayanan
-            $table->string('photo')->nullable();  // foto tim / pemimpin
-
+            $table->string('title');
+            $table->enum('category', ['kepemimpinan', 'tim', 'aksi']);
+            $table->string('leader')->nullable();
+            $table->text('description')->nullable();
+            $table->string('icon')->nullable();
+            $table->string('photo')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('Pelayanan');
+        Schema::dropIfExists('pelayanan');
     }
 };

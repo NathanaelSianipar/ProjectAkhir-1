@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Jadwal;
 use Illuminate\Http\Request;
 
@@ -9,13 +10,13 @@ class JadwalController extends Controller
 {
     public function index()
     {
-        $Jadwal = Jadwal::all();
-        return view('admin.jadwals.index', compact('Jadwal'));
+        $jadwal = Jadwal::all();
+        return view('admin.Jadwals.index', compact('jadwal'));
     }
 
     public function create()
     {
-        return view('admin.jadwals.create');
+        return view('admin.Jadwals.create');
     }
 
     public function store(Request $request)
@@ -33,18 +34,18 @@ class JadwalController extends Controller
 
         Jadwal::create($request->all());
 
-        return redirect()->route('jadwals.index')
+        return redirect()->route('jadwal.index')
             ->with('success', 'Jadwal berhasil ditambahkan');
     }
 
     public function show(Jadwal $Jadwal)
     {
-        return view('admin.jadwals.show', compact('Jadwal'));
+        return view('admin.Jadwals.show', compact('Jadwal'));
     }
 
     public function edit(Jadwal $Jadwal)
     {
-        return view('admin.jadwals.edit', compact('Jadwal'));
+        return view('admin.Jadwals.edit', compact('Jadwal'));
     }
 
     public function update(Request $request, Jadwal $Jadwal)
@@ -62,7 +63,7 @@ class JadwalController extends Controller
 
         $Jadwal->update($request->all());
 
-        return redirect()->route('jadwals.index')
+        return redirect()->route('jadwal.index')
             ->with('success', 'Jadwal berhasil diperbarui');
     }
 
@@ -70,7 +71,7 @@ class JadwalController extends Controller
     {
         $Jadwal->delete();
 
-        return redirect()->route('jadwals.index')
+        return redirect()->route('jadwal.index')
             ->with('success', 'Jadwal berhasil dihapus');
     }
 }

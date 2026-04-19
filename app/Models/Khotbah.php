@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Khotbah extends Model
 {
@@ -16,8 +17,15 @@ class Khotbah extends Model
         'video',
         'description',
         'thumbnail',
-        'tanggal'
+        'sermon_date',
     ];
 
-    public $timestamps = true;
+    protected $casts = [
+        'sermon_date' => 'date',
+    ];
+
+    public function getThumbnailUrlAttribute()
+    {
+        return $this->thumbnail ? Storage::url($this->thumbnail) : null;
+    }
 }

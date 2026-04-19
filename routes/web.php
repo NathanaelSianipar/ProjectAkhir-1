@@ -1,15 +1,24 @@
 <?php
 
+namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\KontakController;
-use App\Http\Controllers\TentangController;
-use App\Http\Controllers\JadwalController;
-use App\Http\Controllers\PelayananController;
-use App\Http\Controllers\GaleriController;
-use App\Http\Controllers\KhotbahController;
 use App\Http\Controllers\ProfilController;
-
+use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
+use App\Http\Controllers\Admin\KhotbahController as AdminKhotbahController;
+use App\Http\Controllers\Admin\JadwalController as AdminJadwalController;
+use App\Http\Controllers\Admin\PelayananController as AdminPelayananController;
+use App\Http\Controllers\Admin\TentangController as AdminTentangController;
+use App\Http\Controllers\Admin\KontakController as AdminKontakController;
+use App\Http\Controllers\User\GaleriController as UserGaleriController;
+use App\Http\Controllers\User\KhotbahController as UserKhotbahController;
+use App\Http\Controllers\User\JadwalController as UserJadwalController;
+use App\Http\Controllers\User\PelayananController as UserPelayananController;
+use App\Http\Controllers\User\TentangController as UserTentangController;
+use App\Http\Controllers\User\KontakController as UserKontakController;
+use App\Http\Controllers\User\JemaatController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.perform');
@@ -22,115 +31,107 @@ Route::get('/', function () {
 })->name("home");
 
 Route::middleware('auth')->prefix('admin')->group(function () {
-    Route::get('/admin.home', function () {
+    Route::get('/', function () {
         return view('admin.home');
     })->name('welcome');
 
-Route::get('/Kontaks.index', [KontakController::class, 'index'])->name('kontaks.index');
-Route::get('/Kontaks.create', [KontakController::class, 'create'])->name('kontaks.create');
-Route::post('/Kontaks.store', [KontakController::class, 'store'])->name('kontaks.store');
-Route::get('/Kontaks.destroy/{id}', [KontakController::class, 'destroy'])->name('kontaks.destroy');
-Route::get('/Kontaks.show/{id}', [KontakController::class, 'show'])->name('kontaks.show');
-Route::get('/Kontaks.edit/{id}', [KontakController::class, 'edit'])->name('kontaks.edit');
-Route::put('/Kontaks.update/{id}', [KontakController::class, 'update'])->name('kontaks.update');
+    Route::get('/galeri', [AdminGaleriController::class, 'index'])->name('galeri.index');
+    Route::get('/galeri/create', [AdminGaleriController::class, 'create'])->name('galeri.create');
+    Route::post('/galeri/store', [AdminGaleriController::class, 'store'])->name('galeri.store');
+    Route::get('/galeri/{Galeri}', [AdminGaleriController::class, 'show'])->name('galeri.show');
+    Route::get('/galeri/{Galeri}/edit', [AdminGaleriController::class, 'edit'])->name('galeri.edit');
+    Route::put('/galeri/{Galeri}', [AdminGaleriController::class, 'update'])->name('galeri.update');
+    Route::delete('/galeri/{Galeri}', [AdminGaleriController::class, 'destroy'])->name('galeri.destroy');
 
-Route::get('/Tentang.index', [TentangController::class, 'index'])->name('tentang.index');
-Route::get('/Tentang.create', [TentangController::class, 'create'])->name('tentang.create');
-Route::post('/Tentang.store', [TentangController::class, 'store'])->name('tentang.store');
-Route::get('/Tentang.destroy/{id}', [TentangController::class, 'destroy'])->name('tentang.destroy');
-Route::get('/Tentang.show/{id}', [TentangController::class, 'show'])->name('tentang.show');
-Route::get('/Tentang.edit/{id}', [TentangController::class, 'edit'])->name('tentang.edit');
-Route::put('/Tentang.update/{id}', [TentangController::class, 'update'])->name('tentang.update');
+    Route::get('/pelayanan', [AdminPelayananController::class, 'index'])->name('pelayanan.index');
+    Route::get('/pelayanan/create', [AdminPelayananController::class, 'create'])->name('pelayanan.create');
+    Route::post('/pelayanan/store', [AdminPelayananController::class, 'store'])->name('pelayanan.store');
+    Route::get('/pelayanan/{Pelayanan}', [AdminPelayananController::class, 'show'])->name('pelayanan.show');
+    Route::get('/pelayanan/{Pelayanan}/edit', [AdminPelayananController::class, 'edit'])->name('pelayanan.edit');
+    Route::put('/pelayanan/{Pelayanan}', [AdminPelayananController::class, 'update'])->name('pelayanan.update');
+    Route::delete('/pelayanan/{Pelayanan}', [AdminPelayananController::class, 'destroy'])->name('pelayanan.destroy');
 
-Route::get('/Jadwals.index', [JadwalController::class, 'index'])->name('jadwals.index');
-Route::get('/Jadwals.create', [JadwalController::class, 'create'])->name('jadwals.create');
-Route::post('/Jadwals.store', [JadwalController::class, 'store'])->name('jadwals.store');
-Route::get('/Jadwals.destroy/{id}', [JadwalController::class, 'destroy'])->name('jadwals.destroy');
-Route::get('/Jadwals.show/{id}', [JadwalController::class, 'show'])->name('jadwals.show');
-Route::get('/Jadwals.edit/{id}', [JadwalController::class, 'edit'])->name('jadwals.edit');
-Route::put('/Jadwals.update/{id}', [JadwalController::class, 'update'])->name('jadwals.update');
+    Route::get('/tentang', [AdminTentangController::class, 'index'])->name('tentang.index');
+    Route::get('/tentang/create', [AdminTentangController::class, 'create'])->name('tentang.create');
+    Route::post('/tentang/store', [AdminTentangController::class, 'store'])->name('tentang.store');
+    Route::get('/tentang/{Tentang}', [AdminTentangController::class, 'show'])->name('tentang.show');
+    Route::get('/tentang/{tentang}/edit', [AdminTentangController::class, 'edit'])->name('tentang.edit');
+    Route::put('/tentang/{tentang}', [AdminTentangController::class, 'update'])->name('tentang.update');
+    Route::delete('/tentang/{Tentang}', [AdminTentangController::class, 'destroy'])->name('tentang.destroy');
 
-Route::get('/Pelayanan.index', [PelayananController::class, 'index'])->name('pelayanan.index');
-Route::get('/Pelayanan.create', [PelayananController::class, 'create'])->name('pelayanan.create');
-Route::post('/Pelayanan.store', [PelayananController::class, 'store'])->name('pelayanan.store');
-Route::get('/Pelayanan.destroy/{id}', [PelayananController::class, 'destroy'])->name('pelayanan.destroy');
-Route::get('/Pelayanan.show/{id}', [PelayananController::class, 'show'])->name('pelayanan.show');
-Route::get('/Pelayanan.edit/{id}', [PelayananController::class, 'edit'])->name('pelayanan.edit');
-Route::put('/Pelayanan.update/{id}', [PelayananController::class, 'update'])->name('pelayanan.update');
+    Route::get('/khotbah', [AdminKhotbahController::class, 'index'])->name('khotbah.index');
+    Route::get('/khotbah/create', [AdminKhotbahController::class, 'create'])->name('khotbah.create');
+    Route::post('/khotbah/store', [AdminKhotbahController::class, 'store'])->name('khotbah.store');
+    Route::get('/khotbah/{khotbah}', [AdminKhotbahController::class, 'show'])->name('khotbah.show');
+    Route::get('/khotbah/{khotbah}/edit', [AdminKhotbahController::class, 'edit'])->name('khotbah.edit');
+    Route::put('/khotbah/{khotbah}', [AdminKhotbahController::class, 'update'])->name('khotbah.update');
+    Route::delete('/khotbah/{khotbah}', [AdminKhotbahController::class, 'destroy'])->name('khotbah.destroy');
 
-Route::get('/Galeris.index', [GaleriController::class, 'index'])->name('galeris.index');
-Route::get('/Galeris.create', [GaleriController::class, 'create'])->name('galeris.create');
-Route::post('/Galeris.store', [GaleriController::class, 'store'])->name('galeris.store');
-Route::get('/Galeris.destroy/{id}', [GaleriController::class, 'destroy'])->name('galeris.destroy');
-Route::get('/Galeris.show/{id}', [GaleriController::class, 'show'])->name('galeris.show');
-Route::get('/Galeris.edit/{id}', [GaleriController::class, 'edit'])->name('galeris.edit');
-Route::put('/Galeris.update/{id}', [GaleriController::class, 'update'])->name('galeris.update');
+    Route::get('/jadwal', [AdminJadwalController::class, 'index'])->name('jadwal.index');
+    Route::get('/jadwal/create', [AdminJadwalController::class, 'create'])->name('jadwal.create');
+    Route::post('/jadwal/store', [AdminJadwalController::class, 'store'])->name('jadwal.store');
+    Route::get('/jadwal/{Jadwal}', [AdminJadwalController::class, 'show'])->name('jadwal.show');
+    Route::get('/jadwal/{Jadwal}/edit', [AdminJadwalController::class, 'edit'])->name('jadwal.edit');
+    Route::put('/jadwal/{Jadwal}', [AdminJadwalController::class, 'update'])->name('jadwal.update');
+    Route::delete('/jadwal/{Jadwal}', [AdminJadwalController::class, 'destroy'])->name('jadwal.destroy');
 
-Route::get('/Khotbah.index', [KhotbahController::class, 'index'])->name('khotbah.index');
-Route::get('/Khotbah.create', [KhotbahController::class, 'create'])->name('khotbah.create');
-Route::post('/Khotbah.store', [KhotbahController::class, 'store'])->name('khotbah.store');
-Route::get('/Khotbah.destroy/{id}', [KhotbahController::class, 'destroy'])->name('khotbah.destroy');
-Route::get('/Khotbah.show/{id}', [KhotbahController::class, 'show'])->name('khotbah.show');
-Route::get('/Khotbah.edit/{id}', [KhotbahController::class, 'edit'])->name('khotbah.edit');
-Route::put('/Khotbah.update/{id}', [KhotbahController::class, 'update'])->name('khotbah.update');
+    Route::get('/kontak', [AdminKontakController::class, 'index'])->name('kontak.index');
+    Route::get('/kontak/create', [AdminKontakController::class, 'create'])->name('kontak.create');
+    Route::post('/kontak/store', [AdminKontakController::class, 'store'])->name('kontak.store');
+    Route::get('/kontak/{kontak}/edit', [AdminKontakController::class, 'edit'])->name('kontak.edit');
+    Route::put('/kontak/{kontak}', [AdminKontakController::class, 'update'])->name('kontak.update');
+    Route::delete('/kontak/{kontak}', [AdminKontakController::class, 'destroy'])->name('kontak.destroy');
 
-Route::get('/Profil.index', [ProfilController::class, 'index'])->name('profil.index');
-Route::get('/Profil.create', [ProfilController::class, 'create'])->name('profil.create');
-Route::post('/Profil.store', [ProfilController::class, 'store'])->name('profil.store');
-Route::get('/Profil.destroy/{id}', [ProfilController::class, 'destroy'])->name('profil.destroy');
-Route::get('/Profil.show/{id}', [ProfilController::class, 'show'])->name('profil.show');
-Route::get('/Profil.edit/{id}', [ProfilController::class, 'edit'])->name('profil.edit');
-Route::put('/Profil.update/{id}', [ProfilController::class, 'update'])->name('profil.update');
+Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
+Route::get('/profil/create', [ProfilController::class, 'create'])->name('profil.create');
+Route::post('/profil', [ProfilController::class, 'store'])->name('profil.store');
+Route::get('/profil/edit', [ProfilController::class, 'edit'])->name('profil.edit');
+Route::put('/profil/update', [ProfilController::class, 'update'])->name('profil.update');   
+
 });
 
-Route::get('/Tentang', function () {
-        return view('User.Tentang.TentangKami');
-    })->name('user.tentang');
+Route::get('/tentang', [TentangController::class, 'index'])->name('user.tentang');
 
-    Route::get('/Jadwal', function () {
-        return view('Jadwal.Jadwal');
-    })->name('user.jadwal');
+Route::get('/Jadwal', [UserJadwalController::class, 'index'])->name('user.jadwal');    
 
-    Route::get('/Galeri', function () {
-        return view('Galeri.Galeri');
-    })->name('user.galeri');
+Route::get('/Galeri', [GaleriController::class, 'index'])->name('user.galeri');
 
-    Route::get('/Khotbah', function () {
-        return view('Khotbah.Khotbah');
-    })->name('user.khotbah');
+Route::get('/Khotbah', [UserKhotbahController::class, 'index'])->name('user.khotbah');
 
-    Route::get('/Pelayanan', function () {
-        return view('Pelayanan.Pelayanan');
-    })->name('user.pelayanan');
+Route::get('/Pelayanan', [PelayananController::class, 'index'])->name('user.pelayanan');
 
-    Route::get('/Kontak', function () {
-        return view('Kontak.kontak');
-    })->name('user.kontak');
+Route::get('/Kontak', function () {
+    return view('User.Kontak.kontak');
+})->name('user.kontak');
 
-    Route::get('/Jemaat', function () {
-        return view('Jemaat.DaftarJemaat');
-    })->name('user.jemaat');
+Route::get('/Jemaat', function () {
+    return view('User.Jemaat.form');
+})->name('user.jemaat');
 
-    Route::get('/Gereja', function () {
-        return view('gereja');
-    })->name('user.gereja');
+Route::get('/Gereja', function () {
+    return view('gereja');
+})->name('user.gereja');
 
-    Route::get('/Ibadah', function () {
-        return view('ibadah');
-    })->name('user.ibadah');
+Route::get('/Ibadah', function () {
+    return view('ibadah');
+})->name('user.ibadah');
 
-    Route::get('/cg', function () {
-        return view('cg');
-    })->name('user.cg');
+Route::get('/cg', function () {
+    return view('cg');
+})->name('user.cg');
 
-    Route::get('/terhubung', function () {
-        return view('terhubung');
-    })->name('user.terhubung');
+Route::get('/terhubung', function () {
+    return view('terhubung');
+})->name('user.terhubung');
 
-    Route::get('/media', function () {
-        return view('media');
-    })->name('user.media');
+Route::get('/media', function () {
+    return view('media');
+})->name('user.media');
 
-    Route::get('/donate', function () {
-        return view('donate');
-    })->name('user.donate');
+Route::get('/donate', function () {
+    return view('donate');
+})->name('user.donate');
+
+Route::get('/jadi-jemaat', [JemaatController::class, 'create'])->name('jemaat.create');
+Route::post('/jadi-jemaat', [JemaatController::class, 'store'])->name('jemaat.store');
+?>

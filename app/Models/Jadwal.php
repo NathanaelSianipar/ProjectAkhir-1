@@ -9,7 +9,7 @@ class Jadwal extends Model
 {
     use HasFactory;
 
-    protected $table = 'Jadwals';
+    protected $table = 'jadwal';
 
     protected $fillable = [
         'title',
@@ -19,6 +19,6 @@ class Jadwal extends Model
         'location',
         'description',
         'category',
-        'icon'
+        'icon',
     ];
 }

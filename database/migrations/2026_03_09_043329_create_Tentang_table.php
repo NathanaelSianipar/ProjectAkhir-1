@@ -6,19 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('Tentang', function (Blueprint $table) {
-            $table->string('id')->primary();
+        Schema::create('tentang', function (Blueprint $table) {
+            $table->id();
             $table->string('header_title');
             $table->text('header_description')->nullable();
-            $table->text('sejarah');
-            $table->text('visi');
-            $table->text('misi');
-            $table->string('gembala_nama');
+            $table->text('sejarah')->nullable();
+            $table->text('visi')->nullable();
+            $table->text('misi')->nullable();
+            $table->string('gembala_nama')->nullable();
             $table->string('gembala_jabatan')->nullable();
             $table->text('gembala_deskripsi')->nullable();
             $table->string('gembala_foto')->nullable();
@@ -26,11 +23,8 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('Tentang');
+        Schema::dropIfExists('tentang');
     }
 };

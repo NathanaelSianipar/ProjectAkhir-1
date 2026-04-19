@@ -9,19 +9,12 @@ class Kontak extends Model
 {
     use HasFactory;
 
-    protected $table = 'Kontaks';
-    protected $primaryKey = 'id';
-    public $incrementing = false; // true if autoincrement primay key
+    protected $table = 'kontak';
 
     protected $fillable = [
         'address',
         'phone',
         'email',
-        'office_hours'
-    ];
-
-    protected $nullable = [
-        'created_at',
-        'updated_at'
+        'office_hours',
     ];
 }

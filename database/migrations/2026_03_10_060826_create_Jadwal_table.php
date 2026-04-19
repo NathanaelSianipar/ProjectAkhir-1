@@ -8,29 +8,22 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('Jadwals', function (Blueprint $table) {
+        Schema::create('jadwal', function (Blueprint $table) {
             $table->id();
-
-            $table->string('title');          // Nama kegiatan
-            $table->string('day');            // Hari (Minggu, Sabtu, dll)
-            $table->time('start_time');       // Jam mulai
-            $table->time('end_time')->nullable(); // Jam selesai
-            $table->string('location')->nullable(); // Lokasi
-            $table->text('description')->nullable(); // Deskripsi kegiatan
-
-            $table->enum('category', [
-                'mingguan',
-                'acara_khusus'
-            ]); // jenis jadwal
-
-            $table->string('icon')->nullable(); // icon kegiatan
-
+            $table->string('title');
+            $table->string('day');
+            $table->time('start_time');
+            $table->time('end_time')->nullable();
+            $table->string('location')->nullable();
+            $table->text('description')->nullable();
+            $table->enum('category', ['mingguan', 'acara_khusus']);
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('Jadwals');
+        Schema::dropIfExists('jadwal');
     }
 };

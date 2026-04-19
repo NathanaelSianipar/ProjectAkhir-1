@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Pelayanan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PelayananController extends Controller
 {
     public function index()
     {
-        $Pelayanan = Pelayanan::all();
-        return view('admin.pelayanan.index', compact('Pelayanan'));
+        $pelayanan = Pelayanan::all();
+        return view('admin.pelayanan.index', compact('pelayanan'));
     }
 
     public function create()
@@ -37,7 +39,7 @@ class PelayananController extends Controller
 
         Pelayanan::create($data);
 
-        return redirect()->route('pelayanan.index')
+        return redirect()->route('admin.pelayanan.index')
             ->with('success', 'Data Pelayanan berhasil ditambahkan');
     }
 
@@ -65,20 +67,28 @@ class PelayananController extends Controller
         $data = $request->all();
 
         if ($request->hasFile('photo')) {
+            if ($Pelayanan->photo) {
+                Storage::disk('public')->delete($Pelayanan->photo);
+            }
+
             $data['photo'] = $request->file('photo')->store('Pelayanan', 'public');
         }
 
         $Pelayanan->update($data);
 
-        return redirect()->route('pelayanan.index')
+        return redirect()->route('admin.pelayanan.index')
             ->with('success', 'Data Pelayanan berhasil diperbarui');
     }
 
     public function destroy(Pelayanan $Pelayanan)
     {
+        if ($Pelayanan->photo) {
+            Storage::disk('public')->delete($Pelayanan->photo);
+        }
+
         $Pelayanan->delete();
 
-        return redirect()->route('pelayanan.index')
+        return redirect()->route('admin.pelayanan.index')
             ->with('success', 'Data Pelayanan berhasil dihapus');
     }
 }

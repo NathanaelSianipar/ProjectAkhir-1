@@ -9,7 +9,7 @@ class Tentang extends Model
 {
     use HasFactory;
 
-    protected $table = 'Tentang';
+    protected $table = 'tentang';
 
     protected $fillable = [
         'header_title',
@@ -20,8 +20,6 @@ class Tentang extends Model
         'gembala_nama',
         'gembala_jabatan',
         'gembala_deskripsi',
-        'gembala_foto'
+        'gembala_foto',
     ];
-
-    public $timestamps = true;
 }

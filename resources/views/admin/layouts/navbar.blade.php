@@ -5,25 +5,25 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="index3.html" class="nav-link">Beranda</a>
+            <a href="{{ route('welcome') }}" class="nav-link">Beranda</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Tentang Kami</a>
+            <a href="{{ route('tentang.index') }}" class="nav-link">Tentang Kami</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Jadwal Ibadah</a>
+            <a href="{{ route('jadwal.index') }}" class="nav-link">Jadwal Ibadah</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Galeri</a>
+            <a href="{{ route('galeri.index') }}" class="nav-link">Galeri</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Khotbah</a>
+            <a href="{{ route('khotbah.index') }}" class="nav-link">Khotbah</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Pelayanan</a>
+            <a href="{{ route('pelayanan.index') }}" class="nav-link">Pelayanan</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{ route('kontaks.index') }}" class="nav-link">Kontak</a>
+            <a href="{{ route('kontak.index') }}" class="nav-link">Kontak</a>
         </li>
     </ul>
 </nav>

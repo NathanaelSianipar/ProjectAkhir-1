@@ -294,7 +294,7 @@
 
             <!-- CALL TO ACTION BUTTON -->
             <div class="mt-5">
-                <a href="{{ route('jadi-jemaat') }}" class="join-btn">
+                <a href="{{ route('jemaat.create') }}" class="join-btn">
                     <i class="fa fa-check-circle me-2"></i> Daftarkan Diri Anda
                 </a>
             </div>

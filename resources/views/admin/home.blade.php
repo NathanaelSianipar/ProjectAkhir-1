@@ -91,16 +91,16 @@
     .welcome-hero h2 { font-family: 'Rajdhani', sans-serif; font-size: 30px; font-weight: 700; line-height: 1.15; margin-bottom: 10px; color: #fff; }
     .hero-admin-name { color: var(--gold-lt); }
     .welcome-hero p { color: rgba(255,255,255,.8); font-size: 14px; max-width: 480px; line-height: 1.65; }
-    .hero-stats { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); display: flex; gap: 28px; }
-    .stat-item { text-align: center; }
-    .stat-num { font-family: 'Rajdhani', sans-serif; font-size: 30px; font-weight: 700; line-height: 1; color: #fff; }
-    .stat-num.g { color: var(--gold-lt); }
-    .stat-num.w { color: rgba(255,255,255,.85); }
-    .stat-label { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 4px; letter-spacing: .4px; }
+    .hero-stats { position: absolute; right: 40px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; }
+    .hero-logo-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .hero-logo-circle { width: 90px; height: 90px; border-radius: 50%; background: rgba(255,255,255,.2); border: 2px solid rgba(255,255,255,.45); display: flex; align-items: center; justify-content: center; font-family: 'Rajdhani', sans-serif; font-size: 26px; font-weight: 700; color: #fff; box-shadow: 0 4px 20px rgba(0,0,0,.15); backdrop-filter: blur(4px); }
+    .hero-logo-circle img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .hero-logo-name { font-family: 'Rajdhani', sans-serif; font-size: 13px; font-weight: 700; color: rgba(255,255,255,.85); letter-spacing: 1px; text-align: center; text-transform: uppercase; }
 
     /* ── SECTION TITLE ── */
     .section-title { font-family: 'Rajdhani', sans-serif; font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: .4px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
     .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    
 
     /* ── GRID CARDS ── */
     .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 16px; margin-bottom: 36px; }
@@ -129,29 +129,7 @@
     .card.gold  .card-arrow { color: var(--gold); }
     .card.white .card-arrow { color: var(--muted); }
 
-    /* ── ACTIVITY ── */
-    .activity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-    .activity-box { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
-    .activity-box h3 { font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 14px; }
-    .activity-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
-    .activity-item:last-child { border-bottom: none; }
-    .activity-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
-    .activity-dot.c { background: var(--cyan); }
-    .activity-dot.g { background: var(--gold); }
-    .activity-text { flex: 1; color: var(--muted); line-height: 1.5; }
-    .activity-text strong { color: var(--text); font-weight: 700; }
-    .activity-time { font-size: 11px; color: #b0b8c9; white-space: nowrap; margin-top: 2px; }
-    .schedule-item { display: flex; align-items: center; gap: 14px; padding: 10px 0; border-bottom: 1px solid var(--border); }
-    .schedule-item:last-child { border-bottom: none; }
-    .sched-day { width: 44px; height: 44px; border-radius: 10px; background: var(--cyan-lt); border: 1px solid rgba(29,168,224,.2); display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; }
-    .sched-day .d { font-family:'Rajdhani',sans-serif; font-size:17px; font-weight:700; color:var(--cyan); line-height:1; }
-    .sched-day .m { font-size:9px; color:var(--muted); letter-spacing:.5px; }
-    .sched-info { flex: 1; }
-    .sched-info strong { font-size: 13px; color: var(--text); display: block; font-weight: 700; }
-    .sched-info span  { font-size: 11px; color: var(--muted); }
-    .sched-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: .4px; }
-    .sched-badge.live { background: var(--cyan-lt); color: var(--cyan); border: 1px solid rgba(29,168,224,.3); }
-    .sched-badge.soon { background: var(--gold-lt); color: var(--gold); border: 1px solid rgba(200,155,60,.3); }
+
 
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
@@ -171,11 +149,11 @@
   <nav class="topbar-nav">
     <a href="#" class="active">Beranda</a>
     <a href="{{ route('tentang.index') }}">Tentang Kami</a>
-    <a href="{{ route('jadwals.index') }}">Jadwal Ibadah</a>
-    <a href="{{ route('galeris.index') }}">Galeri</a>
+    <a href="{{ route('jadwal.index') }}">Jadwal Ibadah</a>
+    <a href="{{ route('galeri.index') }}">Galeri</a>
     <a href="{{ route('khotbah.index') }}">Khotbah</a>
     <a href="{{ route('pelayanan.index') }}">Pelayanan</a>
-    <a href="{{ route('kontaks.index') }}">Kontak</a>
+    <a href="{{ route('kontak.index') }}">Kontak</a>
   </nav>
   <div class="topbar-right">
     <a href="{{ route('home') }}">
@@ -193,11 +171,11 @@
     <div class="sidebar-section">Menu Utama</div>
     <a href="{{ route('welcome') }}" class="active"><span class="icon">⊞</span> Dashboard</a>
     <a href="{{ route('tentang.index') }}"><span class="icon">ℹ</span> Tentang Kami</a>
-    <a href="{{ route('jadwals.index') }}"><span class="icon">📅</span> Jadwal Ibadah</a>
-    <a href="{{ route('galeris.index') }}"><span class="icon">🖼</span> Galeri</a>
+    <a href="{{ route('jadwal.index') }}"><span class="icon">📅</span> Jadwal Ibadah</a>
+    <a href="{{ route('galeri.index') }}"><span class="icon">🖼</span> Galeri</a>
     <a href="{{ route('khotbah.index') }}"><span class="icon">🎙</span> Khotbah</a>
     <a href="{{ route('pelayanan.index') }}"><span class="icon">🙌</span> Pelayanan</a>
-    <a href="{{ route('kontaks.index') }}"><span class="icon">✉</span> Kontak</a>
+    <a href="{{ route('kontak.index') }}"><span class="icon">✉</span> Kontak</a>
     <div class="sidebar-section" style="margin-top:18px;">Pengaturan</div>
     <a href="{{ route('profil.index') }}"><span class="icon">👤</span> Profil Admin</a>
     <a href="#"><span class="icon">⚙</span> Pengaturan</a>
@@ -226,9 +204,12 @@
       </h2>
       <p>Kelola seluruh konten website gereja dari sini. Perubahan yang kamu buat akan langsung terlihat oleh jemaat dan pengunjung umum.</p>
       <div class="hero-stats">
-        <div class="stat-item"><div class="stat-num">12</div><div class="stat-label">Khotbah</div></div>
-        <div class="stat-item"><div class="stat-num g">8</div><div class="stat-label">Galeri</div></div>
-        <div class="stat-item"><div class="stat-num w">5</div><div class="stat-label">Pelayanan</div></div>
+        <div class="hero-logo-wrap">
+          <div class="hero-logo-circle">
+            <img src="{{ asset('gambar/gbi.jpeg') }}" alt="Logo GBI Tambunan">
+          </div>
+          <div class="hero-logo-name">GBI Tambunan</div>
+        </div>
       </div>
     </div>
 
@@ -237,10 +218,10 @@
       <a href="{{ route('tentang.index') }}" style="text-decoration:none">
       <div class="card cyan"><div class="card-icon-wrap">📋</div><div class="card-title">Tentang Kami</div><div class="card-desc">Edit visi, misi, sejarah, dan profil gereja yang tampil di halaman publik.</div><div class="card-arrow">→</div></div>
       </a>
-      <a href="{{ route('jadwals.index') }}" style="text-decoration:none">
+      <a href="{{ route('jadwal.index') }}" style="text-decoration:none">
       <div class="card gold"><div class="card-icon-wrap">📅</div><div class="card-title">Jadwal Ibadah</div><div class="card-desc">Tambah atau ubah jadwal kebaktian mingguan, doa, dan acara khusus.</div><div class="card-arrow">→</div></div>
       </a>
-      <a href="{{ route('galeris.index') }}" style="text-decoration:none">
+      <a href="{{ route('galeri.index') }}" style="text-decoration:none">
       <div class="card white"><div class="card-icon-wrap">🖼</div><div class="card-title">Galeri</div><div class="card-desc">Upload foto dan video dokumentasi kegiatan gereja untuk ditampilkan publik.</div><div class="card-arrow">→</div></div>
       </a>
       <a href="{{ route('khotbah.index') }}" style="text-decoration:none">
@@ -249,30 +230,12 @@
       <a href="{{ route('pelayanan.index') }}" style="text-decoration:none">
       <div class="card gold"><div class="card-icon-wrap">🙌</div><div class="card-title">Pelayanan</div><div class="card-desc">Atur informasi departemen pelayanan, komsel, dan kegiatan komunitas gereja.</div><div class="card-arrow">→</div></div>
       </a>
-      <a href="{{ route('kontaks.index') }}" style="text-decoration:none">
+      <a href="{{ route('kontak.index') }}" style="text-decoration:none">
       <div class="card white"><div class="card-icon-wrap">✉</div><div class="card-title">Kontak</div><div class="card-desc">Perbarui nomor telepon, alamat, email, dan tautan media sosial gereja.</div><div class="card-arrow">→</div></div>
       </a>
       <a href="{{ route('welcome') }}" style="text-decoration:none">
       <div class="card cyan"><div class="card-icon-wrap">🏠</div><div class="card-title">Beranda</div><div class="card-desc">Edit banner utama, teks selamat datang, dan konten featured di halaman depan.</div><div class="card-arrow">→</div></div>
       </a>
-    </div>
-
-    <div class="section-title">Aktivitas & Jadwal</div>
-    <div class="activity-grid">
-      <div class="activity-box">
-        <h3>⚡ Aktivitas Terbaru</h3>
-        <div class="activity-item"><div class="activity-dot c"></div><div class="activity-text"><strong>Khotbah baru ditambahkan</strong><br>"Kasih yang Tak Berkesudahan" – Pdt. Samuel</div><div class="activity-time">2j lalu</div></div>
-        <div class="activity-item"><div class="activity-dot g"></div><div class="activity-text"><strong>Jadwal Ibadah diperbarui</strong><br>Ibadah Minggu Pagi pukul 08.00 WIB</div><div class="activity-time">5j lalu</div></div>
-        <div class="activity-item"><div class="activity-dot c"></div><div class="activity-text"><strong>5 foto galeri diunggah</strong><br>Dokumentasi Natal 2024</div><div class="activity-time">1 hr lalu</div></div>
-        <div class="activity-item"><div class="activity-dot g"></div><div class="activity-text"><strong>Profil gereja diperbarui</strong><br>Bagian visi &amp; misi telah diedit</div><div class="activity-time">3 hr lalu</div></div>
-      </div>
-      <div class="activity-box">
-        <h3>📅 Jadwal Mendatang</h3>
-        <div class="schedule-item"><div class="sched-day"><div class="d">09</div><div class="m">MAR</div></div><div class="sched-info"><strong>Ibadah Minggu Pagi</strong><span>08.00 – 10.00 WIB · Gedung Utama</span></div><div class="sched-badge live">BESOK</div></div>
-        <div class="schedule-item"><div class="sched-day"><div class="d">12</div><div class="m">MAR</div></div><div class="sched-info"><strong>Doa Semalam Suntuk</strong><span>20.00 WIB · Ruang Doa</span></div><div class="sched-badge soon">SOON</div></div>
-        <div class="schedule-item"><div class="sched-day"><div class="d">16</div><div class="m">MAR</div></div><div class="sched-info"><strong>Ibadah Minggu + Baptisan</strong><span>08.00 WIB · Gedung Utama</span></div><div class="sched-badge soon">SOON</div></div>
-        <div class="schedule-item"><div class="sched-day"><div class="d">22</div><div class="m">MAR</div></div><div class="sched-info"><strong>Pertemuan Pemuda</strong><span>16.00 WIB · Aula Samping</span></div><div class="sched-badge soon">SOON</div></div>
-      </div>
     </div>
 
   </main>
