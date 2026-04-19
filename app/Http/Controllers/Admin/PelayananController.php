@@ -11,7 +11,7 @@ class PelayananController extends Controller
 {
     public function index()
     {
-        $pelayanan = Pelayanan::all();
+        $pelayanan = Pelayanan::latest()->get();
         return view('admin.pelayanan.index', compact('pelayanan'));
     }
 
@@ -23,72 +23,79 @@ class PelayananController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required',
-            'category' => 'required',
-            'leader' => 'nullable',
-            'description' => 'nullable',
-            'icon' => 'nullable',
-            'photo' => 'nullable|image'
+            'title' => 'required|string|max:255',
+            'category' => 'required|in:kepemimpinan,tim,aksi',
+            'leader' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'icon' => 'nullable|string|max:50',
+            'photo' => 'nullable|image|max:2048',
         ]);
 
-        $data = $request->all();
+        $data = $request->only([
+            'title',
+            'category',
+            'leader',
+            'description',
+            'icon',
+        ]);
 
         if ($request->hasFile('photo')) {
-            $data['photo'] = $request->file('photo')->store('Pelayanan', 'public');
+            $data['photo'] = $request->file('photo')->store('pelayanan', 'public');
         }
 
         Pelayanan::create($data);
 
-        return redirect()->route('admin.pelayanan.index')
-            ->with('success', 'Data Pelayanan berhasil ditambahkan');
+        return redirect()->route('pelayanan.index')
+            ->with('success', 'Data pelayanan berhasil ditambahkan');
     }
 
-    public function show(Pelayanan $Pelayanan)
+    public function edit(Pelayanan $pelayanan)
     {
-        return view('admin.pelayanan.show', compact('Pelayanan'));
+        return view('admin.pelayanan.edit', compact('pelayanan'));
     }
 
-    public function edit(Pelayanan $Pelayanan)
-    {
-        return view('admin.pelayanan.edit', compact('Pelayanan'));
-    }
-
-    public function update(Request $request, Pelayanan $Pelayanan)
+    public function update(Request $request, Pelayanan $pelayanan)
     {
         $request->validate([
-            'title' => 'required',
-            'category' => 'required',
-            'leader' => 'nullable',
-            'description' => 'nullable',
-            'icon' => 'nullable',
-            'photo' => 'nullable|image'
+            'title' => 'required|string|max:255',
+            'category' => 'required|in:kepemimpinan,tim,aksi',
+            'leader' => 'nullable|string|max:255',
+            'description' => 'nullable|string',
+            'icon' => 'nullable|string|max:50',
+            'photo' => 'nullable|image|max:2048',
         ]);
 
-        $data = $request->all();
+        $data = $request->only([
+            'title',
+            'category',
+            'leader',
+            'description',
+            'icon',
+        ]);
 
         if ($request->hasFile('photo')) {
-            if ($Pelayanan->photo) {
-                Storage::disk('public')->delete($Pelayanan->photo);
+            if ($pelayanan->photo && Storage::disk('public')->exists($pelayanan->photo)) {
+                Storage::disk('public')->delete($pelayanan->photo);
             }
 
-            $data['photo'] = $request->file('photo')->store('Pelayanan', 'public');
+            $data['photo'] = $request->file('photo')->store('pelayanan', 'public');
         }
 
-        $Pelayanan->update($data);
+        $pelayanan->update($data);
 
-        return redirect()->route('admin.pelayanan.index')
-            ->with('success', 'Data Pelayanan berhasil diperbarui');
+        return redirect()->route('pelayanan.index')
+            ->with('success', 'Data pelayanan berhasil diperbarui');
     }
 
-    public function destroy(Pelayanan $Pelayanan)
+    public function destroy(Pelayanan $pelayanan)
     {
-        if ($Pelayanan->photo) {
-            Storage::disk('public')->delete($Pelayanan->photo);
+        if ($pelayanan->photo && Storage::disk('public')->exists($pelayanan->photo)) {
+            Storage::disk('public')->delete($pelayanan->photo);
         }
 
-        $Pelayanan->delete();
+        $pelayanan->delete();
 
-        return redirect()->route('admin.pelayanan.index')
-            ->with('success', 'Data Pelayanan berhasil dihapus');
+        return redirect()->route('pelayanan.index')
+            ->with('success', 'Data pelayanan berhasil dihapus');
     }
 }

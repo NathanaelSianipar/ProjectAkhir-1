@@ -98,7 +98,7 @@ Route::get('/Galeri', [GaleriController::class, 'index'])->name('user.galeri');
 
 Route::get('/Khotbah', [UserKhotbahController::class, 'index'])->name('user.khotbah');
 
-Route::get('/Pelayanan', [PelayananController::class, 'index'])->name('user.pelayanan');
+Route::get('/Pelayanan', [UserPelayananController::class, 'index'])->name('user.pelayanan');
 
 Route::get('/Kontak', function () {
     return view('User.Kontak.kontak');

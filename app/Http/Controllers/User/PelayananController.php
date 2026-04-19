@@ -9,12 +9,16 @@ class PelayananController extends Controller
 {
     public function index()
     {
-        $pelayanan = Pelayanan::all();
-        return view('user.pelayanan.pelayanan', compact('pelayanan'));
-    }
+        $pelayanans = Pelayanan::latest()->get();
 
-    public function show(Pelayanan $Pelayanan)
-    {
-        return view('user.pelayanan.pelayanan', compact('Pelayanan'));
+        $kepemimpinan = $pelayanans->where('category', 'kepemimpinan')->values();
+        $timPelayanan = $pelayanans->where('category', 'tim')->values();
+        $fotoPelayanan = $pelayanans->where('category', 'aksi')->values();
+
+        return view('User.Pelayanan.Pelayanan', compact(
+            'kepemimpinan',
+            'timPelayanan',
+            'fotoPelayanan'
+        ));
     }
 }

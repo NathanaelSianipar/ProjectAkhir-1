@@ -50,33 +50,33 @@
             </div>
         @endif
 
-        <form action="{{ route('jadwal.update', $jadwal->id) }}" method="POST">
+        <form action="{{ route('jadwal.update', $Jadwal->id) }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="fg">
                 <label>Nama Kegiatan</label>
-                <input type="text" name="title" value="{{ old('title', $jadwal->title) }}" required>
+                <input type="text" name="title" value="{{ old('title', $Jadwal->title) }}" required>
             </div>
 
             <div class="form-row-2">
                 <div class="fg">
                     <label>Hari</label>
                     <select name="day" required>
-                        <option value="Senin" {{ old('day', $jadwal->day) == 'Senin' ? 'selected' : '' }}>Senin</option>
-                        <option value="Selasa" {{ old('day', $jadwal->day) == 'Selasa' ? 'selected' : '' }}>Selasa</option>
-                        <option value="Rabu" {{ old('day', $jadwal->day) == 'Rabu' ? 'selected' : '' }}>Rabu</option>
-                        <option value="Kamis" {{ old('day', $jadwal->day) == 'Kamis' ? 'selected' : '' }}>Kamis</option>
-                        <option value="Jumat" {{ old('day', $jadwal->day) == 'Jumat' ? 'selected' : '' }}>Jumat</option>
-                        <option value="Sabtu" {{ old('day', $jadwal->day) == 'Sabtu' ? 'selected' : '' }}>Sabtu</option>
-                        <option value="Minggu" {{ old('day', $jadwal->day) == 'Minggu' ? 'selected' : '' }}>Minggu</option>
+                        <option value="Senin" {{ old('day', $Jadwal->day) == 'Senin' ? 'selected' : '' }}>Senin</option>
+                        <option value="Selasa" {{ old('day', $Jadwal->day) == 'Selasa' ? 'selected' : '' }}>Selasa</option>
+                        <option value="Rabu" {{ old('day', $Jadwal->day) == 'Rabu' ? 'selected' : '' }}>Rabu</option>
+                        <option value="Kamis" {{ old('day', $Jadwal->day) == 'Kamis' ? 'selected' : '' }}>Kamis</option>
+                        <option value="Jumat" {{ old('day', $Jadwal->day) == 'Jumat' ? 'selected' : '' }}>Jumat</option>
+                        <option value="Sabtu" {{ old('day', $Jadwal->day) == 'Sabtu' ? 'selected' : '' }}>Sabtu</option>
+                        <option value="Minggu" {{ old('day', $Jadwal->day) == 'Minggu' ? 'selected' : '' }}>Minggu</option>
                     </select>
                 </div>
                 <div class="fg">
                     <label>Kategori</label>
                     <select name="category" required>
-                        <option value="mingguan" {{ old('category', $jadwal->category) == 'mingguan' ? 'selected' : '' }}>Jadwal Mingguan</option>
-                        <option value="acara_khusus" {{ old('category', $jadwal->category) == 'acara_khusus' ? 'selected' : '' }}>Acara Khusus</option>
+                        <option value="mingguan" {{ old('category', $Jadwal->category) == 'mingguan' ? 'selected' : '' }}>Jadwal Mingguan</option>
+                        <option value="acara_khusus" {{ old('category', $Jadwal->category) == 'acara_khusus' ? 'selected' : '' }}>Acara Khusus</option>
                     </select>
                 </div>
             </div>
@@ -84,27 +84,27 @@
             <div class="form-row-2">
                 <div class="fg">
                     <label>Jam Mulai</label>
-                    <input type="time" name="start_time" value="{{ old('start_time', $jadwal->start_time) }}" required>
+                    <input type="time" name="start_time" value="{{ old('start_time', $Jadwal->start_time) }}" required>
                 </div>
                 <div class="fg">
                     <label>Jam Selesai</label>
-                    <input type="time" name="end_time" value="{{ old('end_time', $jadwal->end_time) }}">
+                    <input type="time" name="end_time" value="{{ old('end_time', $Jadwal->end_time) }}">
                 </div>
             </div>
 
             <div class="fg">
                 <label>Lokasi</label>
-                <input type="text" name="location" value="{{ old('location', $jadwal->location) }}">
+                <input type="text" name="location" value="{{ old('location', $Jadwal->location) }}">
             </div>
 
             <div class="fg">
                 <label>Deskripsi</label>
-                <textarea name="description" rows="3">{{ old('description', $jadwal->description) }}</textarea>
+                <textarea name="description" rows="3">{{ old('description', $Jadwal->description) }}</textarea>
             </div>
 
             <div class="fg">
                 <label>Icon</label>
-                <input type="text" name="icon" value="{{ old('icon', $jadwal->icon) }}" placeholder="Contoh: 📅">
+                <input type="text" name="icon" value="{{ old('icon', $Jadwal->icon) }}" placeholder="Contoh: 📅">
             </div>
 
             <div class="btn-row">
