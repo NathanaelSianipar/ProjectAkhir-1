@@ -88,6 +88,20 @@
             </div>
 
             <div class="fg">
+    <label>Anggota Tim</label>
+    <div id="anggota-wrapper">
+        <div class="form-row-2 anggota-item" style="margin-bottom:10px;">
+            <input type="text" name="anggota_nama[]" placeholder="Nama anggota">
+            <input type="text" name="anggota_bagian[]" placeholder="Bagian / jabatan">
+        </div>
+    </div>
+
+    <button type="button" id="tambah-anggota" class="btn-back" style="margin-top:10px;">
+        + Tambah Anggota
+    </button>
+</div>
+
+            <div class="fg">
                 <label>Foto Pelayanan</label>
                 <input type="file" name="photo" accept="image/*">
             </div>
@@ -99,5 +113,19 @@
         </form>
     </div>
 </div>
+
+<script>
+document.getElementById('tambah-anggota').addEventListener('click', function () {
+    const wrapper = document.getElementById('anggota-wrapper');
+    const item = document.createElement('div');
+    item.className = 'form-row-2 anggota-item';
+    item.style.marginBottom = '10px';
+    item.innerHTML = `
+        <input type="text" name="anggota_nama[]" placeholder="Nama anggota">
+        <input type="text" name="anggota_bagian[]" placeholder="Bagian / jabatan">
+    `;
+    wrapper.appendChild(item);
+});
+</script>
 
 @endsection

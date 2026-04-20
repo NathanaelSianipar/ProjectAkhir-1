@@ -6,6 +6,8 @@ namespace App\Http\Controllers\User;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Admin\AccountController;
 use App\Http\Controllers\Admin\GaleriController as AdminGaleriController;
 use App\Http\Controllers\Admin\KhotbahController as AdminKhotbahController;
 use App\Http\Controllers\Admin\JadwalController as AdminJadwalController;
@@ -25,6 +27,25 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.perform');
 Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register.perform');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AdminLoginController::class, 'login'])->name('login.process');
+Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
+
+Route::prefix('admin')->middleware(['auth', 'role:super_admin,admin,pelayan'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.home');
+    })->name('admin.dashboard');
+});
+
+Route::prefix('admin')->middleware(['auth', 'role:super_admin'])->group(function () {
+    Route::get('/accounts', [AccountController::class, 'index'])->name('accounts.index');
+    Route::get('/accounts/create', [AccountController::class, 'create'])->name('accounts.create');
+    Route::post('/accounts', [AccountController::class, 'store'])->name('accounts.store');
+    Route::get('/accounts/{user}/edit', [AccountController::class, 'edit'])->name('accounts.edit');
+    Route::put('/accounts/{user}', [AccountController::class, 'update'])->name('accounts.update');
+    Route::delete('/accounts/{user}', [AccountController::class, 'destroy'])->name('accounts.destroy');
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -47,9 +68,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/pelayanan/create', [AdminPelayananController::class, 'create'])->name('pelayanan.create');
     Route::post('/pelayanan/store', [AdminPelayananController::class, 'store'])->name('pelayanan.store');
     Route::get('/pelayanan/{Pelayanan}', [AdminPelayananController::class, 'show'])->name('pelayanan.show');
-    Route::get('/pelayanan/{Pelayanan}/edit', [AdminPelayananController::class, 'edit'])->name('pelayanan.edit');
-    Route::put('/pelayanan/{Pelayanan}', [AdminPelayananController::class, 'update'])->name('pelayanan.update');
-    Route::delete('/pelayanan/{Pelayanan}', [AdminPelayananController::class, 'destroy'])->name('pelayanan.destroy');
+    Route::get('/pelayanan/{pelayanan}/edit', [AdminPelayananController::class, 'edit'])->name('pelayanan.edit');
+    Route::put('/pelayanan/{pelayanan}', [AdminPelayananController::class, 'update'])->name('pelayanan.update');
+    Route::delete('/pelayanan/{pelayanan}', [AdminPelayananController::class, 'destroy'])->name('pelayanan.destroy');
 
     Route::get('/tentang', [AdminTentangController::class, 'index'])->name('tentang.index');
     Route::get('/tentang/create', [AdminTentangController::class, 'create'])->name('tentang.create');

@@ -8,17 +8,13 @@ use App\Models\Pelayanan;
 class PelayananController extends Controller
 {
     public function index()
-    {
-        $pelayanans = Pelayanan::latest()->get();
+{
+    $pelayanans = Pelayanan::with('anggotas')->latest()->get();
 
-        $kepemimpinan = $pelayanans->where('category', 'kepemimpinan')->values();
-        $timPelayanan = $pelayanans->where('category', 'tim')->values();
-        $fotoPelayanan = $pelayanans->where('category', 'aksi')->values();
+    $kepemimpinan = $pelayanans->where('category', 'kepemimpinan')->values();
+    $timPelayanan = $pelayanans->where('category', 'tim')->values();
+    $fotoPelayanan = $pelayanans->where('category', 'aksi')->values();
 
-        return view('User.Pelayanan.Pelayanan', compact(
-            'kepemimpinan',
-            'timPelayanan',
-            'fotoPelayanan'
-        ));
-    }
+    return view('User.Pelayanan.Pelayanan', compact('kepemimpinan', 'timPelayanan', 'fotoPelayanan'));
+}
 }

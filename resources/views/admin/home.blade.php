@@ -154,6 +154,7 @@
     <a href="{{ route('khotbah.index') }}">Khotbah</a>
     <a href="{{ route('pelayanan.index') }}">Pelayanan</a>
     <a href="{{ route('kontak.index') }}">Kontak</a>
+    <a href="{{ route('accounts.index') }}"> Akun</a>
   </nav>
   <div class="topbar-right">
     <a href="{{ route('home') }}">
@@ -176,6 +177,7 @@
     <a href="{{ route('khotbah.index') }}"><span class="icon">🎙</span> Khotbah</a>
     <a href="{{ route('pelayanan.index') }}"><span class="icon">🙌</span> Pelayanan</a>
     <a href="{{ route('kontak.index') }}"><span class="icon">✉</span> Kontak</a>
+    <a href="{{ route('accounts.index') }}"> Akun</a>
     <div class="sidebar-section" style="margin-top:18px;">Pengaturan</div>
     <a href="{{ route('profil.index') }}"><span class="icon">👤</span> Profil Admin</a>
     <a href="#"><span class="icon">⚙</span> Pengaturan</a>

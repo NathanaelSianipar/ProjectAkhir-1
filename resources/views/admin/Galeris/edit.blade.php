@@ -51,30 +51,30 @@
             </div>
         @endif
 
-        <form action="{{ route('galeri.update', $galeri->id) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('galeri.update', $Galeri->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div class="fg">
                 <label>Judul Kegiatan</label>
-                <input type="text" name="title" value="{{ old('title', $galeri->title) }}" required>
+                <input type="text" name="title" value="{{ old('title', $Galeri->title) }}" required>
             </div>
 
             <div class="fg">
                 <label>Tanggal Kegiatan</label>
-                <input type="date" name="event_date" value="{{ old('event_date', $galeri->event_date) }}">
+                <input type="date" name="event_date" value="{{ old('event_date', $Galeri->event_date) }}">
             </div>
 
             <div class="fg">
                 <label>Deskripsi</label>
-                <textarea name="description" rows="3">{{ old('description', $galeri->description) }}</textarea>
+                <textarea name="description" rows="3">{{ old('description', $Galeri->description) }}</textarea>
             </div>
 
             <div class="fg">
                 <label>Foto Galeri</label>
                 <input type="file" name="image" accept="image/*">
-                @if($galeri->image)
-                    <img src="{{ asset('storage/'.$galeri->image) }}" class="img-preview" alt="Foto galeri">
+                @if($Galeri->image)
+                    <img src="{{ asset('storage/'.$Galeri->image) }}" class="img-preview" alt="Foto galeri">
                 @endif
             </div>
 

@@ -2,6 +2,66 @@
 
 @section('content')
 
+<style>
+.pelayanan-cta-section {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.pelayanan-cta-text {
+    max-width: 760px;
+    line-height: 1.8;
+    font-size: 15px;
+}
+
+.pelayanan-benefit-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 28px 20px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+}
+
+.pelayanan-benefit-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.1);
+}
+
+.pelayanan-benefit-card .icon-box {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pelayanan-benefit-card .icon-xl {
+    font-size: 28px;
+}
+
+.pelayanan-benefit-card h6 {
+    font-size: 16px;
+}
+
+.pelayanan-benefit-card p {
+    line-height: 1.7;
+}
+
+@media (max-width: 768px) {
+    .pelayanan-cta-text {
+        font-size: 14px;
+        padding: 0 10px;
+    }
+
+    .pelayanan-benefit-card {
+        padding: 24px 18px;
+    }
+}
+</style>
+
 <!-- HERO SECTION -->
 <section class="hero">
     <div class="container">
@@ -59,12 +119,25 @@
 
                         <hr>
 
-                        <p class="small fw-semibold mb-2">Koordinator:</p>
+                        @if($tim->anggotas->count())
+    <p class="small fw-semibold mb-2">Anggota Tim:</p>
 
-                        <div class="d-flex justify-content-between small mb-1">
-                            <span>{{ $tim->leader ?: '-' }}</span>
-                            <span class="text-primary fw-semibold">Tim</span>
-                        </div>
+    @foreach($tim->anggotas as $anggota)
+        <div class="d-flex justify-content-between small mb-1">
+            <span>{{ $anggota->nama }}</span>
+            <span class="text-primary fw-semibold">
+                {{ $anggota->bagian ?: '-' }}
+            </span>
+        </div>
+    @endforeach
+@else
+    <p class="small fw-semibold mb-2">Koordinator:</p>
+
+    <div class="d-flex justify-content-between small mb-1">
+        <span>{{ $tim->leader ?: '-' }}</span>
+        <span class="text-primary fw-semibold">Tim</span>
+    </div>
+@endif
                     </div>
                 </div>
             @empty
@@ -116,54 +189,66 @@
 </section>
 
 <!-- UNDANGAN PELAYANAN -->
-<section class="section bg-light text-center">
+<section class="section bg-light text-center pelayanan-cta-section">
     <div class="container">
         <h2 class="fw-bold mb-3">Temukan Panggilan Pelayanan Anda</h2>
-        <p class="text-muted mb-4">
+        <p class="text-muted pelayanan-cta-text mx-auto mb-5">
             Setiap orang memiliki karunia dan panggilan unik dari Tuhan.
             Kami mengundang Anda untuk bergabung dengan tim pelayanan kami
             dan menjadi berkat bagi gereja dan komunitas kami.
         </p>
 
-        <div class="row justify-content-center mb-4">
-            <div class="col-md-8">
-                <div class="row">
-                    <div class="col-md-3 mb-3">
-                        <div class="icon-box">
-                            <i class="fa fa-heart icon-xl text-primary mb-2"></i>
-                            <h6 class="fw-bold">Komunitas Iman</h6>
-                            <p class="small text-muted">Bergabunglah dengan komunitas yang solid dan saling mendukung</p>
-                        </div>
+        <div class="row justify-content-center g-4 mb-5">
+            <div class="col-md-6 col-lg-3">
+                <div class="pelayanan-benefit-card h-100">
+                    <div class="icon-box">
+                        <i class="fa fa-heart icon-xl text-primary mb-3"></i>
                     </div>
+                    <h6 class="fw-bold mb-2">Komunitas Iman</h6>
+                    <p class="small text-muted mb-0">
+                        Bergabunglah dengan komunitas yang solid dan saling mendukung.
+                    </p>
+                </div>
+            </div>
 
-                    <div class="col-md-3 mb-3">
-                        <div class="icon-box">
-                            <i class="fa fa-book icon-xl text-info mb-2"></i>
-                            <h6 class="fw-bold">Pelajaran Firman</h6>
-                            <p class="small text-muted">Perkembangan spiritual melalui pembelajaran Firman Tuhan</p>
-                        </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="pelayanan-benefit-card h-100">
+                    <div class="icon-box">
+                        <i class="fa fa-book icon-xl text-info mb-3"></i>
                     </div>
+                    <h6 class="fw-bold mb-2">Pelajaran Firman</h6>
+                    <p class="small text-muted mb-0">
+                        Bertumbuh secara spiritual melalui pembelajaran Firman Tuhan.
+                    </p>
+                </div>
+            </div>
 
-                    <div class="col-md-3 mb-3">
-                        <div class="icon-box">
-                            <i class="fa fa-hands-helping icon-xl text-success mb-2"></i>
-                            <h6 class="fw-bold">Dukungan Spiritual</h6>
-                            <p class="small text-muted">Doa dan dukungan dari jemaat dalam perjalanan iman Anda</p>
-                        </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="pelayanan-benefit-card h-100">
+                    <div class="icon-box">
+                        <i class="fa fa-hands-helping icon-xl text-success mb-3"></i>
                     </div>
+                    <h6 class="fw-bold mb-2">Dukungan Spiritual</h6>
+                    <p class="small text-muted mb-0">
+                        Dukungan dan doa dari jemaat dalam perjalanan iman Anda.
+                    </p>
+                </div>
+            </div>
 
-                    <div class="col-md-3 mb-3">
-                        <div class="icon-box">
-                            <i class="fa fa-handshake icon-xl text-warning mb-2"></i>
-                            <h6 class="fw-bold">Peluang Melayani</h6>
-                            <p class="small text-muted">Kesempatan untuk menggunakan karunia dalam melayani Tuhan</p>
-                        </div>
+            <div class="col-md-6 col-lg-3">
+                <div class="pelayanan-benefit-card h-100">
+                    <div class="icon-box">
+                        <i class="fa fa-handshake icon-xl text-warning mb-3"></i>
                     </div>
+                    <h6 class="fw-bold mb-2">Peluang Melayani</h6>
+                    <p class="small text-muted mb-0">
+                        Kesempatan untuk menggunakan karunia dalam melayani Tuhan.
+                    </p>
                 </div>
             </div>
         </div>
 
-        <div class="mt-5">
+        <div class="mt-2">
             <a href="{{ route('jemaat.create') }}" class="join-btn">
                 <i class="fa fa-check-circle me-2"></i> Daftarkan Diri Anda
             </a>

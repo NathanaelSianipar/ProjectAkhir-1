@@ -200,8 +200,20 @@
           <div class="tim-name">{{ $item->title }}</div>
           <div class="tim-desc">{{ $item->description ?: '-' }}</div>
           <hr class="tim-divider"/>
-          <div class="anggota-label">Koordinator</div>
-          <div class="anggota-row">{{ $item->leader ?: '-' }}</div>
+          <div class="anggota-label">Anggota Tim</div>
+
+@if($item->anggotas->count())
+    @foreach($item->anggotas as $anggota)
+        <div class="anggota-row">
+            {{ $anggota->nama }}
+            @if($anggota->bagian)
+                - <strong>{{ $anggota->bagian }}</strong>
+            @endif
+        </div>
+    @endforeach
+@else
+    <div class="anggota-row">{{ $item->leader ?: '-' }}</div>
+@endif
           <div class="tim-footer">
             <a href="{{ route('pelayanan.edit', $item->id) }}" class="act-sm btn-e">✏ Edit</a>
             <form action="{{ route('pelayanan.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?')">

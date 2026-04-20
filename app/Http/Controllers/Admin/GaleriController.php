@@ -72,7 +72,7 @@ class GaleriController extends Controller
 
         $Galeri->update($data);
 
-        return redirect()->route('admin.galeri.index')
+        return redirect()->route('galeri.index')
             ->with('success', 'Galeri berhasil diperbarui');
     }
 

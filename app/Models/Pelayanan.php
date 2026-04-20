@@ -25,4 +25,9 @@ class Pelayanan extends Model
     {
         return $this->photo ? Storage::url($this->photo) : null;
     }
+
+    public function anggotas()
+    {
+        return $this->hasMany(PelayananAnggota::class);
+    }
 }
