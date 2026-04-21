@@ -177,7 +177,7 @@
     <a href="{{ route('khotbah.index') }}"><span class="icon">🎙</span> Khotbah</a>
     <a href="{{ route('pelayanan.index') }}"><span class="icon">🙌</span> Pelayanan</a>
     <a href="{{ route('kontak.index') }}"><span class="icon">✉</span> Kontak</a>
-    <a href="{{ route('accounts.index') }}"> Akun</a>
+    <a href="{{ route('accounts.index') }}"><span class="icon">🔒</span> Akun</a>
     <div class="sidebar-section" style="margin-top:18px;">Pengaturan</div>
     <a href="{{ route('profil.index') }}"><span class="icon">👤</span> Profil Admin</a>
     <a href="#"><span class="icon">⚙</span> Pengaturan</a>
@@ -238,6 +238,13 @@
       <a href="{{ route('welcome') }}" style="text-decoration:none">
       <div class="card cyan"><div class="card-icon-wrap">🏠</div><div class="card-title">Beranda</div><div class="card-desc">Edit banner utama, teks selamat datang, dan konten featured di halaman depan.</div><div class="card-arrow">→</div></div>
       </a>
+      <a href="{{ route('pengumuman.index') }}" style="text-decoration:none">
+      <div class="card white"><div class="card-icon-wrap">📢</div><div class="card-title">Pengumuman</div><div class="card-desc">Kelola pengumuman penting yang akan ditampilkan di halaman publik.</div><div class="card-arrow">→</div></div>
+      </a>
+      <a href="{{ route('accounts.index') }}" style="text-decoration:none">
+      <div class="card gold"><div class="card-icon-wrap">🔒</div><div class="card-arrow">→</div></div>
+      </a>
+      
     </div>
 
   </main>
