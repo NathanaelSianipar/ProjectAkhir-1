@@ -169,6 +169,8 @@
     <a href="{{ route('khotbah.index') }}"  @if(request()->routeIs('khotbah.*'))      class="active" @endif>Khotbah</a>
     <a href="{{ route('pelayanan.index') }}" @if(request()->routeIs('pelayanan.*'))   class="active" @endif>Pelayanan</a>
     <a href="{{ route('kontak.index') }}"   @if(request()->routeIs('kontak.*'))       class="active" @endif>Kontak</a>
+    <a href="{{ route('pengumuman.index') }}"   @if(request()->routeIs('pengumuman.*'))      class="active" @endif>Pengumuman</a>
+    <a href="{{ route('accounts.index') }}" @if(request()->routeIs('accounts.*'))      class="active" @endif>Akun</a>
   </nav>
   <div class="topbar-right">
     <button class="btn-viewsite" onclick="window.open('{{ route('home') }}','_blank')">🌐 Lihat Website</button>
@@ -199,6 +201,8 @@
     <a href="{{ route('khotbah.index') }}"   @if(request()->routeIs('khotbah.*'))      class="active" @endif><span class="ico">🎙</span> Khotbah</a>
     <a href="{{ route('pelayanan.index') }}" @if(request()->routeIs('pelayanan.*'))    class="active" @endif><span class="ico">🙌</span> Pelayanan</a>
     <a href="{{ route('kontak.index') }}"    @if(request()->routeIs('kontak.*'))       class="active" @endif><span class="ico">✉</span> Kontak</a>
+    <a href="{{ route('pengumuman.index') }}"    @if(request()->routeIs('pengumuman.*'))       class="active" @endif><span class="ico">📢</span> Pengumuman</a>
+    <a href="{{ route('accounts.index') }}" @if(request()->routeIs('accounts.*'))      class="active" @endif><span class="ico">🔒</span> Akun</a>
   </nav>
 
   <div class="nav-section">Pengaturan</div>

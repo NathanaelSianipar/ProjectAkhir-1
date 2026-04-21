@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\JadwalController as AdminJadwalController;
 use App\Http\Controllers\Admin\PelayananController as AdminPelayananController;
 use App\Http\Controllers\Admin\TentangController as AdminTentangController;
 use App\Http\Controllers\Admin\KontakController as AdminKontakController;
+use App\Http\Controllers\Admin\PengumumanController as AdminPengumumanController;
+use App\Http\Controllers\User\PengumumanController as UserPengumumanController;
 use App\Http\Controllers\User\GaleriController as UserGaleriController;
 use App\Http\Controllers\User\KhotbahController as UserKhotbahController;
 use App\Http\Controllers\User\JadwalController as UserJadwalController;
@@ -103,11 +105,18 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::put('/kontak/{kontak}', [AdminKontakController::class, 'update'])->name('kontak.update');
     Route::delete('/kontak/{kontak}', [AdminKontakController::class, 'destroy'])->name('kontak.destroy');
 
-Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
-Route::get('/profil/create', [ProfilController::class, 'create'])->name('profil.create');
-Route::post('/profil', [ProfilController::class, 'store'])->name('profil.store');
-Route::get('/profil/edit', [ProfilController::class, 'edit'])->name('profil.edit');
-Route::put('/profil/update', [ProfilController::class, 'update'])->name('profil.update');   
+    Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
+    Route::get('/profil/create', [ProfilController::class, 'create'])->name('profil.create');
+    Route::post('/profil', [ProfilController::class, 'store'])->name('profil.store');
+    Route::get('/profil/edit', [ProfilController::class, 'edit'])->name('profil.edit');
+    Route::put('/profil/update', [ProfilController::class, 'update'])->name('profil.update');  
+
+    Route::get('/pengumuman', [AdminPengumumanController::class, 'index'])->name('pengumuman.index');
+    Route::get('/pengumuman/create', [AdminPengumumanController::class, 'create'])->name('pengumuman.create');
+    Route::post('/pengumuman', [AdminPengumumanController::class, 'store'])->name('pengumuman.store');
+    Route::get('/pengumuman/{pengumuman}/edit', [AdminPengumumanController::class, 'edit'])->name('pengumuman.edit');
+    Route::put('/pengumuman/{pengumuman}', [AdminPengumumanController::class, 'update'])->name('pengumuman.update');
+    Route::delete('/pengumuman/{pengumuman}', [AdminPengumumanController::class, 'destroy'])->name('pengumuman.destroy');
 
 });
 
@@ -121,9 +130,7 @@ Route::get('/Khotbah', [UserKhotbahController::class, 'index'])->name('user.khot
 
 Route::get('/Pelayanan', [UserPelayananController::class, 'index'])->name('user.pelayanan');
 
-Route::get('/Kontak', function () {
-    return view('User.Kontak.kontak');
-})->name('user.kontak');
+Route::get('/kontak', [UserKontakController::class, 'index'])->name('user.kontak');
 
 Route::get('/Jemaat', function () {
     return view('User.Jemaat.form');
@@ -155,4 +162,8 @@ Route::get('/donate', function () {
 
 Route::get('/jadi-jemaat', [JemaatController::class, 'create'])->name('jemaat.create');
 Route::post('/jadi-jemaat', [JemaatController::class, 'store'])->name('jemaat.store');
+
+Route::get('/pengumuman', [UserPengumumanController::class, 'index'])->name('user.pengumuman');
+Route::get('/pengumuman/{pengumuman}', [UserPengumumanController::class, 'show'])->name('user.pengumuman.show');
+
 ?>

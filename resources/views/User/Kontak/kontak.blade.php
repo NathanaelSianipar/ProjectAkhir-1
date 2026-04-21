@@ -1,11 +1,13 @@
-<?php
-$gereja = "GBI Tambunan";
-$whatsapp = "6281384871163"; // tanpa tanda +
-?>
-
 @extends('layouts.app')
 
 @section('content')
+
+@php
+    $gereja = "GBI Tambunan";
+    $whatsapp = $kontak && $kontak->phone
+        ? preg_replace('/[^0-9]/', '', $kontak->phone)
+        : '6281384871163';
+@endphp
 
 <!-- HERO -->
 <section class="hero">
@@ -41,58 +43,59 @@ $whatsapp = "6281384871163"; // tanpa tanda +
     <div class="col-md-6">
         <h4 class="fw-bold mb-4">Informasi Kontak</h4>
 
-        <div class="card card-custom p-3 mb-3">
-            <div class="d-flex align-items-start">
-                <div class="icon-box bg-blue me-3">
-                    <i class="fa fa-location-dot"></i>
-                </div>
-                <div>
-                    <strong>Alamat</strong><br>
-                    Jl. Pasar Tambunan Desa No.4<br>
-                    Lumban Pea, Kec. Balige<br>
-                    Toba, Sumatera Utara
-                </div>
-            </div>
-        </div>
-
-        <div class="card card-custom p-3 mb-3">
-            <div class="d-flex align-items-start">
-                <div class="icon-box bg-green me-3">
-                    <i class="fa fa-phone"></i>
-                </div>
-                <div>
-                    <strong>Telepon</strong><br>
-                    +62 813-8487-1163
+        @if($kontak)
+            <div class="card card-custom p-3 mb-3">
+                <div class="d-flex align-items-start">
+                    <div class="icon-box bg-blue me-3">
+                        <i class="fa fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <strong>Alamat</strong><br>
+                        {!! nl2br(e($kontak->address)) !!}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card card-custom p-3 mb-3">
-            <div class="d-flex align-items-start">
-                <div class="icon-box bg-orange me-3">
-                    <i class="fa fa-envelope"></i>
-                </div>
-                <div>
-                    <strong>Email</strong><br>
-                    gbitambunan01@gmail.com
+            <div class="card card-custom p-3 mb-3">
+                <div class="d-flex align-items-start">
+                    <div class="icon-box bg-green me-3">
+                        <i class="fa fa-phone"></i>
+                    </div>
+                    <div>
+                        <strong>Telepon</strong><br>
+                        {{ $kontak->phone ?: '-' }}
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="card card-custom p-3">
-            <div class="d-flex align-items-start">
-                <div class="icon-box bg-purple me-3">
-                    <i class="fa fa-clock"></i>
-                </div>
-                <div>
-                    <strong>Jam Sekretariat</strong><br>
-                    Senin - Jumat : 09.00 - 17.00 WIB<br>
-                    Sabtu : 09.00 - 15.00 WIB<br>
-                    Minggu : Setelah ibadah
+            <div class="card card-custom p-3 mb-3">
+                <div class="d-flex align-items-start">
+                    <div class="icon-box bg-orange me-3">
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                    <div>
+                        <strong>Email</strong><br>
+                        {{ $kontak->email ?: '-' }}
+                    </div>
                 </div>
             </div>
-        </div>
 
+            <div class="card card-custom p-3">
+                <div class="d-flex align-items-start">
+                    <div class="icon-box bg-purple me-3">
+                        <i class="fa fa-clock"></i>
+                    </div>
+                    <div>
+                        <strong>Jam Sekretariat</strong><br>
+                        {!! nl2br(e($kontak->office_hours ?: '-')) !!}
+                    </div>
+                </div>
+            </div>
+        @else
+            <div class="card card-custom p-3">
+                <p class="mb-0 text-muted">Data kontak belum tersedia.</p>
+            </div>
+        @endif
     </div>
 
     <!-- FORM -->
@@ -125,7 +128,7 @@ $whatsapp = "6281384871163"; // tanpa tanda +
 </section>
 
 <footer class="text-center py-3 bg-primary text-white">
-    &copy; <?= date("Y"); ?> <?= $gereja ?> - All Rights Reserved
+    &copy; {{ date('Y') }} {{ $gereja }} - All Rights Reserved
 </footer>
 
 <script>
@@ -135,11 +138,11 @@ function kirimWA(){
     var pesan = document.getElementById("pesan").value;
 
     var text = "Shalom 🙏%0A%0A"
-        + "Nama: " + nama + "%0A"
-        + "Email: " + email + "%0A"
-        + "Pesan: " + pesan;
+        + "Nama: " + encodeURIComponent(nama) + "%0A"
+        + "Email: " + encodeURIComponent(email) + "%0A"
+        + "Pesan: " + encodeURIComponent(pesan);
 
-    var url = "https://wa.me/<?= $whatsapp ?>?text=" + text;
+    var url = "https://wa.me/{{ $whatsapp }}?text=" + text;
     window.open(url, '_blank');
 }
 </script>

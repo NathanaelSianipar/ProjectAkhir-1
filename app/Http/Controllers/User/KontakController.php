@@ -10,6 +10,7 @@ class KontakController extends Controller
     public function index()
     {
         $kontak = Kontak::latest()->first();
-        return view('user.kontak', compact('kontak'));
+
+        return view('User.Kontak.kontak', compact('kontak'));
     }
 }

@@ -28,13 +28,7 @@
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.khotbah') }}">Khotbah</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.pelayanan') }}">Pelayanan</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.kontak') }}">Kontak</a></li>
-
-            @guest
-                <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
-                @if (Route::has('register'))
-                    <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
-                @endif
-            @endguest
+            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.pengumuman') }}">Pengumuman</a></li>
 
             @auth
                 <li class="nav-item dropdown ms-3">

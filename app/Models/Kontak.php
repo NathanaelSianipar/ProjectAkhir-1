@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Kontak extends Model
 {
-    use HasFactory;
-
     protected $table = 'kontak';
 
     protected $fillable = [
@@ -16,5 +13,6 @@ class Kontak extends Model
         'phone',
         'email',
         'office_hours',
+        'map_embed',
     ];
 }

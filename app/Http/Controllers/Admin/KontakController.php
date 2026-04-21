@@ -10,7 +10,7 @@ class KontakController extends Controller
 {
     public function index()
     {
-        $kontak = Kontak::latest()->get();
+        $kontak = Kontak::all();
         return view('admin.kontaks.index', compact('kontak'));
     }
 
@@ -22,53 +22,37 @@ class KontakController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'address' => 'required|string|max:255',
-            'phone' => 'required|string|max:50',
-            'email' => 'required|email|max:255',
-            'office_hours' => 'nullable|string',
-            'map_embed' => 'nullable|string'
+            'address' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'office_hours' => 'nullable',
+            'map_embed' => 'nullable'
         ]);
 
-        $data = $request->only([
-            'address',
-            'phone',
-            'email',
-            'office_hours',
-            'map_embed'
-        ]);
+        Kontak::create($request->all());
 
-        Kontak::create($data);
-
-        return redirect()->route('admin.kontaks.index')
+        return redirect()->route('kontak.index')
             ->with('success', 'Kontak berhasil ditambahkan.');
     }
 
     public function edit(Kontak $kontak)
     {
-        return view('admin.kontaks.edit', compact('kontak'));
+        return view('admin.kontak.edit', compact('kontak'));
     }
 
     public function update(Request $request, Kontak $kontak)
     {
         $request->validate([
-            'address' => 'required|string|max:255',
-            'phone' => 'required|string|max:50',
-            'email' => 'required|email|max:255',
-            'office_hours' => 'nullable|string',
-            'map_embed' => 'nullable|string'
+            'address' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'office_hours' => 'nullable',
+            'map_embed' => 'nullable'
         ]);
 
-        $data = $request->only([
-            'address',
-            'phone',
-            'email',
-            'office_hours',
-            'map_embed'
-        ]);
+        $kontak->update($request->all());
 
-        $kontak->update($data);
-
-        return redirect()->route('admin.kontaks.index')
+        return redirect()->route('kontak.index')
             ->with('success', 'Kontak berhasil diperbarui.');
     }
 
@@ -76,7 +60,7 @@ class KontakController extends Controller
     {
         $kontak->delete();
 
-        return redirect()->route('admin.kontak.index')
+        return redirect()->route('kontak.index')
             ->with('success', 'Kontak berhasil dihapus.');
     }
 }
