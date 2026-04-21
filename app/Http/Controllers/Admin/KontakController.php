@@ -37,7 +37,7 @@ class KontakController extends Controller
 
     public function edit(Kontak $kontak)
     {
-        return view('admin.kontak.edit', compact('kontak'));
+        return view('admin.kontaks.edit', compact('kontak'));
     }
 
     public function update(Request $request, Kontak $kontak)

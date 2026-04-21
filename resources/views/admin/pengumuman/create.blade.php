@@ -219,7 +219,6 @@
     <div class="pengumuman-header">
         <div>
             <h1>Tambah Pengumuman</h1>
-            <p>Buat pengumuman baru untuk disampaikan kepada jemaat melalui halaman user.</p>
         </div>
 
         <a href="{{ route('pengumuman.index') }}" class="btn-back">

@@ -252,7 +252,6 @@
     <div class="pengumuman-header">
         <div>
             <h1>Data Pengumuman</h1>
-            <p>Kelola informasi dan pengumuman resmi gereja untuk ditampilkan ke halaman user.</p>
         </div>
 
         <a href="{{ route('pengumuman.create') }}" class="btn-add">

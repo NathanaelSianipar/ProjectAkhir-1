@@ -226,7 +226,6 @@
     <div class="pengumuman-header">
         <div>
             <h1>Edit Pengumuman</h1>
-            <p>Perbarui isi, tanggal, gambar, dan status pengumuman gereja.</p>
         </div>
 
         <a href="{{ route('pengumuman.index') }}" class="btn-back">
