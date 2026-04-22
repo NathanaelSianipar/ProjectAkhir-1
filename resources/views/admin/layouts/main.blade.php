@@ -5,6 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin – GBI Tambunan</title>
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+
+  @php
+    use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Storage;
+
+    $authUser = Auth::user();
+
+    $displayRole = match($authUser->role ?? '') {
+        'super_admin' => 'Super Admin',
+        'admin' => 'Admin',
+        'pelayanan' => 'Pelayanan',
+        default => 'Administrator',
+    };
+
+    $displayName = $authUser->name ?? 'Admin GBI';
+
+    $displayPhoto = null;
+    if (!empty($authUser->foto) && Storage::disk('public')->exists($authUser->foto)) {
+        $displayPhoto = Storage::url($authUser->foto);
+    }
+
+    $words = preg_split('/\s+/', trim($displayName));
+    $initials = '';
+
+    if (!empty($words)) {
+        foreach ($words as $word) {
+            if (!empty($word)) {
+                $initials .= strtoupper(substr($word, 0, 1));
+            }
+            if (strlen($initials) >= 2) {
+                break;
+            }
+        }
+    }
+
+    $initials = $initials ?: 'A';
+  @endphp
+
   <style>
     :root {
       --bg:        #f4f6f9;
@@ -30,7 +68,6 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body { background:var(--bg); font-family:'Nunito',sans-serif; color:var(--text); min-height:100vh; }
 
-    /* ── TOPBAR ── */
     .topbar {
       position:fixed; top:0; left:0; right:0; z-index:200; height:56px;
       display:flex; align-items:center; justify-content:space-between;
@@ -38,14 +75,17 @@
       background:var(--white); border-bottom:1px solid var(--border);
       box-shadow:0 1px 8px rgba(0,0,0,.06);
     }
+
     .topbar-left {
       display:flex; align-items:center; width:240px; height:100%; flex-shrink:0;
       background:var(--sidebar); padding:0 18px;
     }
+
     .hamburger {
       background:none; border:none; color:rgba(255,255,255,.5);
       font-size:20px; cursor:pointer; margin-right:12px;
     }
+
     .brand { display:flex; align-items:center; gap:10px; text-decoration:none; }
     .brand-logo {
       width:32px; height:32px;
@@ -71,31 +111,36 @@
       padding:5px 14px; border-radius:6px; cursor:pointer; transition:all .15s;
     }
     .btn-viewsite:hover { background:var(--cyan); color:#fff; }
+
     .avatar {
       width:32px; height:32px; border-radius:50%;
       background:linear-gradient(135deg,var(--gold),var(--cyan));
       display:flex; align-items:center; justify-content:center;
       font-size:12px; font-weight:700; color:#fff; cursor:pointer; overflow:hidden;
+      text-transform:uppercase; text-decoration:none;
     }
-    .avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+    .avatar img { width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
 
-    /* ── SIDEBAR ── */
     .sidebar {
       position:fixed; top:56px; left:0; bottom:0; width:240px;
       background:var(--sidebar); display:flex; flex-direction:column;
       overflow-y:auto; z-index:100;
     }
+
     .sidebar-user {
       display:flex; align-items:center; gap:12px;
       padding:18px 18px 14px; border-bottom:1px solid rgba(255,255,255,.07);
     }
+
     .sidebar-user .ava {
       width:40px; height:40px; border-radius:50%;
       background:linear-gradient(135deg,var(--gold),var(--cyan));
       display:flex; align-items:center; justify-content:center;
       font-size:15px; font-weight:700; color:#fff; flex-shrink:0; overflow:hidden;
+      text-transform:uppercase;
     }
-    .sidebar-user .ava img { width:100%; height:100%; object-fit:cover; }
+    .sidebar-user .ava img { width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
+
     .sidebar-user .info strong { display:block; font-size:14px; font-weight:700; color:#fff; }
     .sidebar-user .info span  { font-size:11px; color:var(--cyan); }
 
@@ -105,6 +150,7 @@
       background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1);
       border-radius:7px; padding:7px 12px;
     }
+
     .sidebar-search input {
       background:none; border:none; outline:none;
       color:#fff; font-family:'Nunito',sans-serif; font-size:13px; flex:1;
@@ -116,6 +162,7 @@
       font-size:10px; font-weight:700; letter-spacing:1.4px;
       color:rgba(255,255,255,.25); text-transform:uppercase;
     }
+
     .sidebar nav a {
       display:flex; align-items:center; gap:10px;
       padding:9px 18px; font-size:13.5px; font-weight:600;
@@ -124,6 +171,7 @@
     }
     .sidebar nav a:hover { color:#fff; background:rgba(255,255,255,.06); }
     .sidebar nav a.active { color:#fff; border-left-color:var(--cyan); background:rgba(29,168,224,.15); }
+
     .sidebar nav a .ico { font-size:15px; width:20px; text-align:center; }
 
     .sidebar-footer {
@@ -133,7 +181,6 @@
     }
     .sidebar-footer strong { color:rgba(255,255,255,.6); display:block; }
 
-    /* ── WRAPPER ── */
     .wrapper { margin-left:240px; padding-top:56px; min-height:100vh; }
 
     ::-webkit-scrollbar { width:5px; }
@@ -147,12 +194,10 @@
     }
   </style>
 
-  {{-- Slot for page-specific styles --}}
   @stack('styles')
 </head>
 <body>
 
-<!-- ══ TOPBAR ══ -->
 <header class="topbar">
   <div class="topbar-left">
     <button class="hamburger">☰</button>
@@ -161,32 +206,47 @@
       <span class="brand-name">GBI <span>Tambunan</span></span>
     </a>
   </div>
+
   <nav class="topbar-nav">
-    <a href="{{ route('welcome') }}"        @if(request()->routeIs('welcome'))        class="active" @endif>Beranda</a>
-    <a href="{{ route('tentang.index') }}"  @if(request()->routeIs('tentang.*'))      class="active" @endif>Tentang Kami</a>
-    <a href="{{ route('jadwal.index') }}"   @if(request()->routeIs('jadwal.*'))       class="active" @endif>Jadwal Ibadah</a>
-    <a href="{{ route('galeri.index') }}"   @if(request()->routeIs('galeri.*'))       class="active" @endif>Galeri</a>
-    <a href="{{ route('khotbah.index') }}"  @if(request()->routeIs('khotbah.*'))      class="active" @endif>Khotbah</a>
-    <a href="{{ route('pelayanan.index') }}" @if(request()->routeIs('pelayanan.*'))   class="active" @endif>Pelayanan</a>
-    <a href="{{ route('kontak.index') }}"   @if(request()->routeIs('kontak.*'))       class="active" @endif>Kontak</a>
-    <a href="{{ route('pengumuman.index') }}"   @if(request()->routeIs('pengumuman.*'))      class="active" @endif>Pengumuman</a>
-    <a href="{{ route('accounts.index') }}" @if(request()->routeIs('accounts.*'))      class="active" @endif>Akun</a>
+    <a href="{{ route('welcome') }}" @if(request()->routeIs('welcome')) class="active" @endif>Beranda</a>
+    <a href="{{ route('tentang.index') }}" @if(request()->routeIs('tentang.*')) class="active" @endif>Tentang Kami</a>
+    <a href="{{ route('jadwal.index') }}" @if(request()->routeIs('jadwal.*')) class="active" @endif>Jadwal Ibadah</a>
+    <a href="{{ route('galeri.index') }}" @if(request()->routeIs('galeri.*')) class="active" @endif>Galeri</a>
+    <a href="{{ route('khotbah.index') }}" @if(request()->routeIs('khotbah.*')) class="active" @endif>Khotbah</a>
+    <a href="{{ route('pelayanan.index') }}" @if(request()->routeIs('pelayanan.*')) class="active" @endif>Pelayanan</a>
+    <a href="{{ route('kontak.index') }}" @if(request()->routeIs('kontak.*')) class="active" @endif>Kontak</a>
+    <a href="{{ route('pengumuman.index') }}" @if(request()->routeIs('pengumuman.*')) class="active" @endif>Pengumuman</a>
+    <a href="{{ route('accounts.index') }}" @if(request()->routeIs('accounts.*')) class="active" @endif>Akun</a>
   </nav>
+
   <div class="topbar-right">
     <button class="btn-viewsite" onclick="window.open('{{ route('home') }}','_blank')">🌐 Lihat Website</button>
-    <div class="avatar" id="tbAva">A</div>
+
+    <a href="{{ route('profil.index') }}" class="avatar">
+      @if($displayPhoto)
+        <img src="{{ $displayPhoto }}" alt="{{ $displayName }}">
+      @else
+        {{ $initials }}
+      @endif
+    </a>
   </div>
 </header>
 
-<!-- ══ SIDEBAR ══ -->
 <aside class="sidebar">
   <div class="sidebar-user">
-    <div class="ava" id="sbAva">A</div>
+    <div class="ava">
+      @if($displayPhoto)
+        <img src="{{ $displayPhoto }}" alt="{{ $displayName }}">
+      @else
+        {{ $initials }}
+      @endif
+    </div>
     <div class="info">
-      <strong id="sbName">Admin GBI</strong>
-      <span id="sbRole">Administrator</span>
+      <strong>{{ $displayName }}</strong>
+      <span>{{ $displayRole }}</span>
     </div>
   </div>
+
   <div class="sidebar-search">
     <span style="color:rgba(255,255,255,.4)">🔍</span>
     <input type="text" placeholder="Search..."/>
@@ -194,23 +254,22 @@
 
   <div class="nav-section">Menu Utama</div>
   <nav>
-    <a href="{{ route('welcome') }}"         @if(request()->routeIs('welcome'))        class="active" @endif><span class="ico">⊞</span> Dashboard</a>
-    <a href="{{ route('tentang.index') }}"   @if(request()->routeIs('tentang.*'))      class="active" @endif><span class="ico">ℹ</span> Tentang Kami</a>
-    <a href="{{ route('jadwal.index') }}"    @if(request()->routeIs('jadwal.*'))       class="active" @endif><span class="ico">📅</span> Jadwal Ibadah</a>
-    <a href="{{ route('galeri.index') }}"    @if(request()->routeIs('galeri.*'))       class="active" @endif><span class="ico">🖼</span> Galeri</a>
-    <a href="{{ route('khotbah.index') }}"   @if(request()->routeIs('khotbah.*'))      class="active" @endif><span class="ico">🎙</span> Khotbah</a>
-    <a href="{{ route('pelayanan.index') }}" @if(request()->routeIs('pelayanan.*'))    class="active" @endif><span class="ico">🙌</span> Pelayanan</a>
-    <a href="{{ route('kontak.index') }}"    @if(request()->routeIs('kontak.*'))       class="active" @endif><span class="ico">✉</span> Kontak</a>
-    <a href="{{ route('pengumuman.index') }}"    @if(request()->routeIs('pengumuman.*'))       class="active" @endif><span class="ico">📢</span> Pengumuman</a>
-    <a href="{{ route('accounts.index') }}" @if(request()->routeIs('accounts.*'))      class="active" @endif><span class="ico">🔒</span> Akun</a>
+    <a href="{{ route('welcome') }}" @if(request()->routeIs('welcome')) class="active" @endif><span class="ico">⊞</span> Dashboard</a>
+    <a href="{{ route('tentang.index') }}" @if(request()->routeIs('tentang.*')) class="active" @endif><span class="ico">ℹ</span> Tentang Kami</a>
+    <a href="{{ route('jadwal.index') }}" @if(request()->routeIs('jadwal.*')) class="active" @endif><span class="ico">📅</span> Jadwal Ibadah</a>
+    <a href="{{ route('galeri.index') }}" @if(request()->routeIs('galeri.*')) class="active" @endif><span class="ico">🖼</span> Galeri</a>
+    <a href="{{ route('khotbah.index') }}" @if(request()->routeIs('khotbah.*')) class="active" @endif><span class="ico">🎙</span> Khotbah</a>
+    <a href="{{ route('pelayanan.index') }}" @if(request()->routeIs('pelayanan.*')) class="active" @endif><span class="ico">🙌</span> Pelayanan</a>
+    <a href="{{ route('kontak.index') }}" @if(request()->routeIs('kontak.*')) class="active" @endif><span class="ico">✉</span> Kontak</a>
+    <a href="{{ route('pengumuman.index') }}" @if(request()->routeIs('pengumuman.*')) class="active" @endif><span class="ico">📢</span> Pengumuman</a>
+    <a href="{{ route('accounts.index') }}" @if(request()->routeIs('accounts.*')) class="active" @endif><span class="ico">🔒</span> Akun</a>
   </nav>
 
   <div class="nav-section">Pengaturan</div>
   <nav>
-    <a href="{{ route('profil.index') }}"    @if(request()->routeIs('profil.*'))       class="active" @endif><span class="ico">👤</span> Profil Admin</a>
-    <a href="#"><span class="ico">⚙</span> Pengaturan</a>
-    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-      <span class="ico">🚪</span> Keluar
+    <a href="{{ route('profil.index') }}" @if(request()->routeIs('profil.*')) class="active" @endif><span class="ico">👤</span> Profil Admin</a>
+    <a href="{{ route('logout') }}" onclick="confirmLogout(event)">
+   <span class="ico">🚪</span> Keluar
     </a>
   </nav>
 
@@ -219,43 +278,25 @@
   </div>
 </aside>
 
-<!-- ══ MAIN WRAPPER ══ -->
 <div class="wrapper">
   @yield('content')
 </div>
 
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none">@csrf</form>
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none">
+  @csrf
+</form>
 
-<!-- ══ PROFILE SYNC SCRIPT (global, semua halaman) ══ -->
-<script>
-(function(){
-  const KEY = 'gbi_profile_v1';
-  function initials(n){ return (n||'A').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2); }
-  function txt(id,v){ const e=document.getElementById(id); if(e) e.textContent=v||''; }
-  function setAva(id, nama, foto){
-    const el=document.getElementById(id); if(!el) return;
-    if(foto){
-      el.innerHTML=`<img src="${foto}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"/>`;
-    } else { el.innerHTML=initials(nama); }
-  }
-  function sync(){
-    let p=null;
-    try{ const r=localStorage.getItem(KEY); if(r) p=JSON.parse(r); }catch(_){}
-    if(!p) return;
-    setAva('tbAva', p.nama, p.foto);
-    setAva('sbAva', p.nama, p.foto);
-    txt('sbName', p.nama);
-    txt('sbRole', p.jabatan);
-  }
-  sync();
-  window.addEventListener('storage', e=>{ if(e.key===KEY) sync(); });
-  window.addEventListener('focus', sync);
-  document.addEventListener('visibilitychange', ()=>{ if(document.visibilityState==='visible') sync(); });
-})();
-</script>
-
-{{-- Slot for page-specific scripts --}}
 @stack('scripts')
+
+<script>
+function confirmLogout(e) {
+    e.preventDefault();
+
+    if (confirm("Apakah Anda yakin ingin keluar?")) {
+        document.getElementById('logout-form').submit();
+    }
+}
+</script>
 
 </body>
 </html>

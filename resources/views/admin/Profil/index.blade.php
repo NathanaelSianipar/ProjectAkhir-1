@@ -13,11 +13,6 @@
     --cyan-dk:   #0d85b5;
     --cyan-lt:   #e8f6fd;
     --gold:      #c89b3c;
-    --gold-lt:   #fdf6e3;
-    --danger:    #e05555;
-    --danger-lt: #fdf0f0;
-    --success:   #2ea86a;
-    --success-lt:#e8f7ef;
   }
 
   .page-head { display:flex; align-items:center; justify-content:space-between; padding:24px 32px 0; }
@@ -64,9 +59,6 @@
     border-radius: 50%;
     background: linear-gradient(135deg, var(--gold), var(--cyan));
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Rajdhani', sans-serif;
-    font-size: 32px; font-weight: 700; color: #fff;
-    position: relative;
     overflow: hidden;
     box-shadow: 0 4px 20px rgba(29,168,224,.25);
     flex-shrink: 0;
@@ -75,7 +67,6 @@
   .ava-circle img {
     width: 100%; height: 100%;
     object-fit: cover;
-    position: absolute; inset: 0;
   }
 
   .ava-hint { font-size: 11px; color: var(--muted2); margin-top: 8px; }
@@ -169,6 +160,18 @@
     font-weight: 400;
   }
 
+  .alert-success-custom {
+    max-width: 600px;
+    margin: 0 auto 16px;
+    background: #e8f7ef;
+    border: 1px solid #bfe7cf;
+    color: #1d6b43;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
   @media(max-width:900px){
     .content{padding:16px 16px 60px;}
     .field-row{grid-template-columns:110px 1fr;}
@@ -183,15 +186,17 @@
 </div>
 
 <div class="content">
+  @if(session('success'))
+    <div class="alert-success-custom">
+      {{ session('success') }}
+    </div>
+  @endif
+
   <div class="profile-wrap">
 
     <div class="avatar-card">
       <div class="ava-circle">
-        @if(!empty($user->foto))
-          <img src="{{ asset('storage/' . $user->foto) }}" alt="{{ $user->name }}">
-        @else
-          {{ strtoupper(substr($user->name ?? 'A', 0, 2)) }}
-        @endif
+        <img src="{{ $user->foto_url }}" alt="{{ $user->name }}">
       </div>
 
       <div class="ava-hint">Foto profil dikelola dari halaman edit profil</div>
@@ -202,7 +207,7 @@
 
       <div class="profile-role-display">
         <span>●</span>
-        <span>{{ $user->jabatan ?? 'Administrator' }}</span>
+        <span>{{ $user->role_label }}</span>
       </div>
 
       <div class="profile-joined">

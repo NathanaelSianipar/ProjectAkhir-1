@@ -190,6 +190,20 @@
             </div>
         @endif
 
+        @if(session('success'))
+        <div style="
+            background:#e8f7ef;
+            border:1px solid #bfe7cf;
+            color:#1d6b43;
+            padding:10px;
+            border-radius:8px;
+            margin-bottom:15px;
+            font-weight:600;
+        ">
+            {{ session('success') }}
+            </div>
+        @endif
+
         <form action="{{ route('login.process') }}" method="POST">
             @csrf
 

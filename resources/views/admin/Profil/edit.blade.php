@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-.form-wrap { max-width:700px; margin:0 auto; }
+.form-wrap { max-width:700px; margin:0 auto; padding: 24px 32px 60px; }
 .form-card {
     background:#fff;
     border:1px solid #e4e8ef;
@@ -32,8 +32,11 @@
 }
 .img-preview {
     width:120px;
-    border-radius:10px;
+    height:120px;
+    object-fit:cover;
+    border-radius:50%;
     margin-top:10px;
+    border: 3px solid #e4e8ef;
 }
 .btn-row { display:flex; gap:10px; margin-top:10px; }
 .btn {
@@ -44,6 +47,7 @@
 }
 .btn-save { background:#1da8e0; color:#fff; border:none; }
 .btn-back { background:#f0f2f5; color:#333; border:1px solid #ddd; }
+.text-danger { color: red; font-size: 12px; }
 </style>
 
 <div class="form-wrap">
@@ -56,40 +60,45 @@
 
             <div class="fg">
                 <label>Nama</label>
-                <input type="text" name="name" value="{{ $user->name }}">
+                <input type="text" name="name" value="{{ old('name', $user->name) }}">
+                @error('name') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
             <div class="fg">
                 <label>Username</label>
-                <input type="text" name="username" value="{{ $user->username }}">
+                <input type="text" name="username" value="{{ old('username', $user->username) }}">
+                @error('username') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
             <div class="fg">
                 <label>Email</label>
-                <input type="email" name="email" value="{{ $user->email }}">
+                <input type="email" name="email" value="{{ old('email', $user->email) }}">
+                @error('email') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
             <div class="fg">
                 <label>Telepon</label>
-                <input type="text" name="phone" value="{{ $user->phone }}">
+                <input type="text" name="phone" value="{{ old('phone', $user->phone) }}">
+                @error('phone') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
             <div class="fg">
                 <label>Alamat</label>
-                <textarea name="alamat">{{ $user->alamat }}</textarea>
+                <textarea name="alamat">{{ old('alamat', $user->alamat) }}</textarea>
+                @error('alamat') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
             <div class="fg">
                 <label>Jabatan</label>
-                <input type="text" name="jabatan" value="{{ $user->jabatan }}">
+                <input type="text" name="jabatan" value="{{ old('jabatan', $user->jabatan) }}">
+                @error('jabatan') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
             <div class="fg">
                 <label>Foto Profil</label>
-                <input type="file" name="foto">
-                @if($user->foto)
-                    <img src="{{ asset('storage/'.$user->foto) }}" class="img-preview">
-                @endif
+                <input type="file" name="foto" accept="image/*">
+                @error('foto') <small class="text-danger">{{ $message }}</small> @enderror
+                <img src="{{ $user->foto_url }}" class="img-preview" alt="Foto Profil">
             </div>
 
             <div class="btn-row">
