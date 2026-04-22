@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
+use Illuminate\Support\Facades\Hash;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -38,7 +39,7 @@ class AccountController extends Controller
             'name' => $request->name,
             'username' => $request->username,
             'email' => $request->email,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
             'role' => $request->role,
             'is_active' => $request->is_active,
         ]);
@@ -79,7 +80,7 @@ class AccountController extends Controller
         ];
 
         if ($request->filled('password')) {
-            $data['password'] = $request->password;
+            $data['password'] = Hash::make($request->password);
         }
 
         $user->update($data);

@@ -12,12 +12,14 @@ class Profil extends Model
     protected $table = 'profil';
 
     protected $fillable = [
-        'name',
-        'username',
-        'email',
-        'phone',
-        'alamat',
-        'jabatan',
-        'foto'
-    ];
+    'name',
+    'username',
+    'email',
+    'password',
+    'role',
+    'phone',
+    'alamat',
+    'jabatan',
+    'foto',
+];
 }

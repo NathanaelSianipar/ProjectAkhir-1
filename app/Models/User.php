@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -15,7 +16,10 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'is_active',
+        'phone',
+        'alamat',
+        'jabatan',
+        'foto',
     ];
 
     protected $hidden = [
@@ -23,12 +27,47 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected function casts(): array
+    protected $appends = [
+        'foto_url',
+        'role_label',
+        'initials',
+    ];
+
+    public function getFotoUrlAttribute()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'is_active' => 'boolean',
-        ];
+        if (!empty($this->foto) && Storage::disk('public')->exists($this->foto)) {
+            return Storage::url($this->foto);
+        }
+
+        return asset('images/default-user.png');
+    }
+
+    public function getRoleLabelAttribute()
+    {
+        return match ($this->role) {
+            'super_admin' => 'Super Admin',
+            'admin' => 'Admin',
+            'pelayanan' => 'Pelayanan',
+            default => 'Administrator',
+        };
+    }
+
+    public function getInitialsAttribute()
+    {
+        $name = trim($this->name ?? 'A');
+        $words = preg_split('/\s+/', $name);
+        $initials = '';
+
+        foreach ($words as $word) {
+            if (!empty($word)) {
+                $initials .= strtoupper(substr($word, 0, 1));
+            }
+
+            if (strlen($initials) >= 2) {
+                break;
+            }
+        }
+
+        return $initials ?: 'A';
     }
 }

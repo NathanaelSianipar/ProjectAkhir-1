@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
+use Illuminate\Support\Facades\Hash;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class AdminLoginController extends Controller
 
         $credentials = [
             $field => $request->login,
-            'password' => $request->password,
+            'password' => Hash::make($request->password),
         ];
 
         if (!Auth::attempt($credentials, $request->boolean('remember'))) {
@@ -43,6 +44,7 @@ class AdminLoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login');
+        return redirect()->route('login')
+            ->with('success', 'Berhasil logout');
     }
 }

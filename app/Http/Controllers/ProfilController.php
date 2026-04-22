@@ -40,9 +40,9 @@ class ProfilController extends Controller
                 Rule::unique('users', 'email')->ignore($user->id),
             ],
             'phone' => 'nullable|string|max:20',
-            'alamat' => 'nullable|string',
+            'alamat' => 'nullable|string|max:500',
             'jabatan' => 'nullable|string|max:255',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            'foto' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
         $data = [
@@ -55,7 +55,7 @@ class ProfilController extends Controller
         ];
 
         if ($request->hasFile('foto')) {
-            if ($user->foto && Storage::disk('public')->exists($user->foto)) {
+            if (!empty($user->foto) && Storage::disk('public')->exists($user->foto)) {
                 Storage::disk('public')->delete($user->foto);
             }
 
@@ -64,7 +64,6 @@ class ProfilController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('profil.index')
-            ->with('success', 'Profil berhasil diperbarui');
+        return redirect()->route('profil.index')->with('success', 'Profil berhasil diperbarui.');
     }
 }
