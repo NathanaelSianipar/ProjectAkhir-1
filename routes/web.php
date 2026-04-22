@@ -120,17 +120,34 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
 });
 
-Route::get('/tentang', [TentangController::class, 'index'])->name('user.tentang');
+Route::middleware('auth')->prefix('pelayan')->group(function () {
+    Route::get('/', function () {
+        return view('pelayanan.beranda');
+    })->name('welcome');
 
-Route::get('/Jadwal', [UserJadwalController::class, 'index'])->name('user.jadwal');    
+    Route::get('/tentang', [TentangController::class, 'index'])->name('pelayanan.metaprofil');
 
-Route::get('/Galeri', [GaleriController::class, 'index'])->name('user.galeri');
+    Route::get('/Jadwal', [UserJadwalController::class, 'index'])->name('pelayanan.jadwal');    
 
-Route::get('/Khotbah', [UserKhotbahController::class, 'index'])->name('user.khotbah');
+    Route::get('/Khotbah', [UserKhotbahController::class, 'index'])->name('pelayanan.khotbah');
 
-Route::get('/Pelayanan', [UserPelayananController::class, 'index'])->name('user.pelayanan');
+    Route::get('/Pelayanan', [UserPelayananController::class, 'index'])->name('pelayanan.pelayanan');
 
-Route::get('/kontak', [UserKontakController::class, 'index'])->name('user.kontak');
+    Route::get('/kontak', [UserKontakController::class, 'index'])->name('pelayanan.pengumuman');
+});
+
+    
+    Route::get('/tentang', [TentangController::class, 'index'])->name('user.tentang');
+
+    Route::get('/Jadwal', [UserJadwalController::class, 'index'])->name('user.jadwal');    
+
+    Route::get('/Galeri', [GaleriController::class, 'index'])->name('user.galeri');
+
+    Route::get('/Khotbah', [UserKhotbahController::class, 'index'])->name('user.khotbah');
+
+    Route::get('/Pelayanan', [UserPelayananController::class, 'index'])->name('user.pelayanan');
+
+    Route::get('/kontak', [UserKontakController::class, 'index'])->name('user.kontak');
 
 Route::get('/Jemaat', function () {
     return view('User.Jemaat.form');
