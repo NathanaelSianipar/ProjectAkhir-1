@@ -123,11 +123,11 @@ Route::middleware(['auth', 'role:pelayan'])->prefix('pelayanan')->group(function
 });
 
     
-    Route::get('/tentang', [TentangController::class, 'index'])->name('user.tentang');
+    Route::get('/tentang', [UserTentangController::class, 'index'])->name('user.tentang');
 
     Route::get('/Jadwal', [UserJadwalController::class, 'index'])->name('user.jadwal');    
 
-    Route::get('/Galeri', [GaleriController::class, 'index'])->name('user.galeri');
+    Route::get('/Galeri', [UserGaleriController::class, 'index'])->name('user.galeri');
 
     Route::get('/Khotbah', [UserKhotbahController::class, 'index'])->name('user.khotbah');
 
