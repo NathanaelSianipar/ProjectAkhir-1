@@ -1,9 +1,5 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
-namespace App\Http\Controllers\User;
-namespace App\Http\Controllers\Pelayanan;
-namespace App\Http\Controllers\Auth;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -36,7 +32,7 @@ Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('logi
 Route::post('/login', [AdminLoginController::class, 'login'])->name('login.process');
 Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
 
-Route::prefix('admin')->middleware(['auth', 'role:super_admin,admin,pelayan'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:super_admin,admin'])->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.home');
     })->name('admin.dashboard');

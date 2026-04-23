@@ -17,7 +17,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
 <div class="container">
-    <a class="navbar-brand" href="{{ route('welcome') }}"><img src="/gambar/gbi.jpeg" alt="GBI Tambunan" height="40"> GBI TAMBUNAN</a>
+    <a class="navbar-brand" href="{{ route('home') }}"><img src="/gambar/gbi.jpeg" alt="GBI Tambunan" height="40"> GBI TAMBUNAN</a>
     <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#menuNav"><span class="navbar-toggler-icon"></span></button>
     <div class="collapse navbar-collapse" id="menuNav">
         <ul class="navbar-nav ms-auto menu-navbar align-items-center">
@@ -26,7 +26,6 @@
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.jadwal') }}">Jadwal</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.galeri') }}">Galeri</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.khotbah') }}">Khotbah</a></li>
-            <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.pelayanan') }}">Pelayanan</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.kontak') }}">Kontak</a></li>
             <li class="nav-item"><a class="nav-link text-dark" href="{{ route('user.pengumuman') }}">Pengumuman</a></li>
 
@@ -80,13 +79,12 @@
         <div class="col-md-4 mb-4 mb-md-0 footer-section">
             <h5>Menu</h5>
             <ul>
-                <li><a href="{{ route('welcome') }}">Beranda</a></li>
+                <li><a href="{{ route('home') }}">Beranda</a></li>
                 <li><a href="{{ route('user.tentang') }}">Tentang Kami</a></li>
                 <li><a href="{{ route('user.jadwal') }}">Jadwal</a></li>
                 <li><a href="{{ route('user.galeri') }}">Galeri</a></li>
                 <li><a href="{{ route('user.khotbah') }}">Khotbah</a></li>
-                <li><a href="{{ route('user.pelayanan') }}">Pelayanan</a></li>
-                <li><a href="{{ route('welcome') }}">Login</a></li>
+                <li><a href="{{ route('login') }}">Login</a></li>
             </ul>
         </div>
 
