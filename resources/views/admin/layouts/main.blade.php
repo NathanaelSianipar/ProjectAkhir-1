@@ -269,7 +269,7 @@
   <nav>
     <a href="{{ route('profil.index') }}" @if(request()->routeIs('profil.*')) class="active" @endif><span class="ico">👤</span> Profil Admin</a>
     <a href="{{ route('logout') }}" onclick="confirmLogout(event)">
-   <span class="ico">🚪</span> Keluar
+      <span class="ico">🚪</span> Keluar
     </a>
   </nav>
 
@@ -282,8 +282,9 @@
   @yield('content')
 </div>
 
-<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none">
-  @csrf
+<!-- FORM LOGOUT -->
+<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
+    @csrf
 </form>
 
 @stack('scripts')

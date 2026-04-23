@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Pelayanan;
 
 use App\Http\Controllers\Controller;
 use App\Models\Pelayanan;
@@ -15,6 +15,6 @@ class PelayananController extends Controller
     $timPelayanan = $pelayanans->where('category', 'tim')->values();
     $fotoPelayanan = $pelayanans->where('category', 'aksi')->values();
 
-    return view('User.Pelayanan.Pelayanan', compact('kepemimpinan', 'timPelayanan', 'fotoPelayanan'));
+    return view('Pelayanan.beranda', compact('kepemimpinan', 'timPelayanan', 'fotoPelayanan'));
 }
 }
