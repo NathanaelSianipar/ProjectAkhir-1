@@ -1,7 +1,5 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
-namespace App\Http\Controllers\User;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -19,9 +17,9 @@ use App\Http\Controllers\User\PengumumanController as UserPengumumanController;
 use App\Http\Controllers\User\GaleriController as UserGaleriController;
 use App\Http\Controllers\User\KhotbahController as UserKhotbahController;
 use App\Http\Controllers\User\JadwalController as UserJadwalController;
-use App\Http\Controllers\User\PelayananController as UserPelayananController;
 use App\Http\Controllers\User\TentangController as UserTentangController;
 use App\Http\Controllers\User\KontakController as UserKontakController;
+use App\Http\Controllers\Pelayanan\PelayananController;
 use App\Http\Controllers\User\JemaatController;
 
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -34,7 +32,7 @@ Route::get('/login', [AdminLoginController::class, 'showLoginForm'])->name('logi
 Route::post('/login', [AdminLoginController::class, 'login'])->name('login.process');
 Route::post('/logout', [AdminLoginController::class, 'logout'])->name('logout');
 
-Route::prefix('admin')->middleware(['auth', 'role:super_admin,admin,pelayan'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'role:super_admin,admin'])->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.home');
     })->name('admin.dashboard');
@@ -120,28 +118,16 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
 });
 
-Route::middleware('auth')->prefix('pelayan')->group(function () {
-    Route::get('/', function () {
-        return view('pelayanan.beranda');
-    })->name('welcome');
-
-    Route::get('/tentang', [TentangController::class, 'index'])->name('pelayanan.metaprofil');
-
-    Route::get('/Jadwal', [UserJadwalController::class, 'index'])->name('pelayanan.jadwal');    
-
-    Route::get('/Khotbah', [UserKhotbahController::class, 'index'])->name('pelayanan.khotbah');
-
-    Route::get('/Pelayanan', [UserPelayananController::class, 'index'])->name('pelayanan.pelayanan');
-
-    Route::get('/kontak', [UserKontakController::class, 'index'])->name('pelayanan.pengumuman');
+Route::middleware(['auth', 'role:pelayan'])->prefix('pelayanan')->group(function () {
+    Route::get('/beranda', [PelayananController::class, 'index'])->name('pelayanan.beranda');
 });
 
     
-    Route::get('/tentang', [TentangController::class, 'index'])->name('user.tentang');
+    Route::get('/tentang', [UserTentangController::class, 'index'])->name('user.tentang');
 
     Route::get('/Jadwal', [UserJadwalController::class, 'index'])->name('user.jadwal');    
 
-    Route::get('/Galeri', [GaleriController::class, 'index'])->name('user.galeri');
+    Route::get('/Galeri', [UserGaleriController::class, 'index'])->name('user.galeri');
 
     Route::get('/Khotbah', [UserKhotbahController::class, 'index'])->name('user.khotbah');
 

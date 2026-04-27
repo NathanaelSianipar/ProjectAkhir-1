@@ -84,7 +84,6 @@
                 <li><a href="{{ route('user.khotbah') }}">Khotbah</a></li>
                 <li><a href="{{ route('user.pelayanan') }}">Pelayanan</a></li>
                 <li><a href="{{ route('user.pengumuman') }}">Pengumuman</a></li>
-                <li><a href="{{ route('welcome') }}">Login</a></li>
             </ul>
         </div>
 

@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-use Illuminate\Support\Facades\Hash;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -25,14 +24,25 @@ class AdminLoginController extends Controller
 
         $credentials = [
             $field => $request->login,
-            'password' => Hash::make($request->password),
+            'password' => $request->password,
         ];
 
         if (!Auth::attempt($credentials, $request->boolean('remember'))) {
             return back()->withInput()->with('error', 'Login gagal.');
         }
 
+        $user = Auth::user();
+
+        if (!in_array($user->role, ['super_admin', 'admin', 'pelayan'])) {
+            Auth::logout();
+            return back()->withInput()->with('error', 'Akses ditolak.');
+        }
+
         $request->session()->regenerate();
+
+        if ($user->role === 'pelayan') {
+            return redirect()->route('pelayanan.beranda');
+        }
 
         return redirect()->route('admin.dashboard');
     }
