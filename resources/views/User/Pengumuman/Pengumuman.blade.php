@@ -1,46 +1,398 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="py-5 bg-light">
+
+<style>
+body {
+    background: #f4f9ff;
+}
+
+/* ── HERO ── */
+.hero {
+    background: linear-gradient(135deg, #005bea, #00c6fb);
+    padding: 90px 0;
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 40px,
+        rgba(255,255,255,0.03) 40px,
+        rgba(255,255,255,0.03) 41px
+    );
+    pointer-events: none;
+}
+
+.hero h1 {
+    font-weight: 800;
+    font-size: 38px;
+    position: relative;
+}
+
+.hero p {
+    opacity: 0.9;
+    font-size: 17px;
+    position: relative;
+}
+
+/* ── SECTION ── */
+.section-title {
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.divider {
+    height: 4px;
+    width: 80px;
+    background: linear-gradient(90deg, #005bea, #00c6fb);
+    margin: 15px auto 20px;
+    border-radius: 20px;
+}
+
+.section-plain {
+    padding: 80px 0;
+}
+
+/* ── SEARCH BAR ── */
+.search-wrap {
+    max-width: 500px;
+    margin: 0 auto 40px;
+    position: relative;
+}
+
+.search-wrap i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 16px;
+}
+
+.search-input {
+    width: 100%;
+    padding: 14px 20px 14px 46px;
+    border: 2px solid #e2e8f0;
+    border-radius: 50px;
+    background: white;
+    font-size: 14px;
+    color: #1e293b;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+    outline: none;
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.search-input:focus {
+    border-color: #005bea;
+    box-shadow: 0 4px 18px rgba(0,91,234,0.15);
+}
+
+.search-input::placeholder { color: #b0bec5; }
+
+/* ── PENGUMUMAN GRID ── */
+.pengumuman-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+/* ── PENGUMUMAN CARD ── */
+.pengumuman-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    transition: all 0.35s ease;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.pengumuman-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+.pengumuman-card .accent-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #005bea, #00c6fb);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 20px 20px 0 0;
+}
+
+.pengumuman-card:hover .accent-bar {
+    opacity: 1;
+}
+
+/* Thumbnail */
+.card-thumb {
+    width: 100%;
+    height: 210px;
+    overflow: hidden;
+    position: relative;
+    background: #dbeafe;
+}
+
+.card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.pengumuman-card:hover .card-thumb img {
+    transform: scale(1.06);
+}
+
+.card-thumb-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #005bea, #00c6fb);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: rgba(255,255,255,0.8);
+}
+
+.card-thumb-placeholder i {
+    font-size: 46px;
+    opacity: 0.75;
+}
+
+.card-thumb-placeholder span {
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    opacity: 0.7;
+}
+
+/* Card Body */
+.card-body-pengumuman {
+    padding: 22px 22px 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.pengumuman-date {
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: #005bea;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.pengumuman-title {
+    font-size: 16.5px;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1.45;
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.pengumuman-desc {
+    font-size: 13.5px;
+    color: #6b7280;
+    line-height: 1.7;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 18px;
+}
+
+.card-footer-pengumuman {
+    padding-top: 14px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.btn-baca {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    background: linear-gradient(135deg, #005bea, #00c6fb);
+    color: white;
+    border-radius: 50px;
+    padding: 9px 22px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 14px rgba(0,91,234,0.25);
+}
+
+.btn-baca:hover {
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0,91,234,0.35);
+}
+
+/* ── EMPTY STATE ── */
+.empty-wrap {
+    text-align: center;
+    padding: 60px 20px;
+    grid-column: 1 / -1;
+}
+
+.empty-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #005bea20, #00c6fb20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: #005bea;
+    margin: 0 auto 20px;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 576px) {
+    .pengumuman-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+{{-- ── HERO ── --}}
+<section class="hero">
     <div class="container">
-        <h1 class="display-5 fw-bold text-center mb-3">Pengumuman Gereja</h1>
-        <p class="text-center text-muted">Informasi terbaru dan pengumuman resmi dari gereja.</p>
+        <h1>Pengumuman</h1>
+        <p>Informasi terbaru dan pengumuman resmi dari gereja</p>
     </div>
 </section>
 
-<section class="py-5">
+{{-- ── PENGUMUMAN LIST ── --}}
+<section class="section-plain">
     <div class="container">
-        <div class="row g-4">
+
+        <div class="text-center mb-5">
+            <h2 class="section-title">Informasi Terkini</h2>
+            <div class="divider"></div>
+        </div>
+
+        {{-- Search --}}
+        <div class="search-wrap">
+            <i class="bi bi-search"></i>
+            <input type="text"
+                   class="search-input"
+                   id="searchPengumuman"
+                   placeholder="Cari judul pengumuman...">
+        </div>
+
+        {{-- Grid --}}
+        <div class="pengumuman-grid" id="pengumumanGrid">
+
             @forelse($pengumuman as $item)
-                <div class="col-md-6 col-lg-4">
-                    <div class="card h-100 shadow-sm border-0">
-                        @if($item->image)
-                            <img src="{{ asset('storage/' . $item->image) }}" class="card-img-top" alt="{{ $item->title }}" style="height:220px;object-fit:cover;">
-                        @endif
+            <div class="pengumuman-card"
+                 data-title="{{ strtolower($item->title) }}">
 
-                        <div class="card-body d-flex flex-column">
-                            <small class="text-muted mb-2">
-                                {{ $item->publish_date ?: '-' }}
-                            </small>
+                <div class="accent-bar"></div>
 
-                            <h5 class="fw-bold">{{ $item->title }}</h5>
-
-                            <p class="text-muted flex-grow-1">
-                                {{ \Illuminate\Support\Str::limit($item->content, 120) }}
-                            </p>
-
-                            <a href="{{ route('user.pengumuman.show', $item->id) }}" class="btn btn-primary btn-sm mt-2">
-                                Baca Selengkapnya
-                            </a>
+                {{-- Thumbnail --}}
+                <div class="card-thumb">
+                    @if($item->image)
+                        <img src="{{ asset('storage/' . $item->image) }}"
+                             alt="{{ $item->title }}"
+                             loading="lazy">
+                    @else
+                        <div class="card-thumb-placeholder">
+                            <i class="bi bi-megaphone-fill"></i>
+                            <span>Pengumuman</span>
                         </div>
+                    @endif
+                </div>
+
+                {{-- Content --}}
+                <div class="card-body-pengumuman">
+                    <div class="pengumuman-date">
+                        <i class="bi bi-calendar3"></i>
+                        {{ $item->publish_date
+                            ? \Carbon\Carbon::parse($item->publish_date)->translatedFormat('d F Y')
+                            : '—' }}
+                    </div>
+
+                    <div class="pengumuman-title">{{ $item->title }}</div>
+
+                    @if($item->content)
+                        <div class="pengumuman-desc">
+                            {{ \Illuminate\Support\Str::limit(strip_tags($item->content), 120) }}
+                        </div>
+                    @endif
+
+                    <div class="card-footer-pengumuman">
+                        <a href="{{ route('user.pengumuman.show', $item->id) }}"
+                           class="btn-baca">
+                            <i class="bi bi-arrow-right-circle-fill"></i>
+                            Baca Selengkapnya
+                        </a>
                     </div>
                 </div>
+
+            </div>
+
             @empty
-                <div class="col-12 text-center">
-                    <p>Belum ada pengumuman.</p>
+            <div class="empty-wrap">
+                <div class="empty-icon">
+                    <i class="bi bi-megaphone"></i>
                 </div>
+                <h4 class="fw-bold mb-2">Belum Ada Pengumuman</h4>
+                <p class="text-muted">Pengumuman akan segera ditampilkan di sini. Tetap pantau terus!</p>
+            </div>
             @endforelse
+
         </div>
+
+        {{-- Pagination --}}
+        @if(method_exists($pengumuman, 'links') && $pengumuman->hasPages())
+            <div class="d-flex justify-content-center mt-5">
+                {{ $pengumuman->links() }}
+            </div>
+        @endif
+
     </div>
 </section>
+
+<script>
+    const searchInput = document.getElementById('searchPengumuman');
+    const cards       = document.querySelectorAll('.pengumuman-card');
+
+    searchInput.addEventListener('input', function () {
+        const q = this.value.toLowerCase().trim();
+        cards.forEach(card => {
+            const match = !q || card.dataset.title.includes(q);
+            card.style.display = match ? '' : 'none';
+        });
+    });
+</script>
+
 @endsection

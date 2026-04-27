@@ -52,7 +52,7 @@ class JemaatController extends Controller
 
             DB::commit();
 
-            $noAdmin = '6281632228286';
+            $noAdmin = '6285261520267';
 
             $pesan = urlencode(
                 "=== PENDAFTARAN JEMAAT BARU ===\n\n" .
