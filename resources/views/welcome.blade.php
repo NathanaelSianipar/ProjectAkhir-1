@@ -368,7 +368,7 @@
         transform: translateY(-10px);
         box-shadow: 0 24px 60px rgba(0,91,234,0.18);
     }
-\
+
     .connect-icon {
         font-size: 3.5rem;
         margin-bottom: 20px;
