@@ -31,7 +31,7 @@ class AccountController extends Controller
             'username' => 'required|string|max:255|unique:users,username',
             'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'role' => 'required|in:admin,pelayanan',
+            'role' => 'required|in:admin,pelayan',
             'is_active' => 'required|boolean',
         ]);
 
@@ -49,7 +49,7 @@ class AccountController extends Controller
 
     public function edit(User $user)
     {
-        if (!in_array($user->role, ['admin', 'pelayanan'])) {
+        if (!in_array($user->role, ['admin', 'pelayan'])) {
             abort(403);
         }
 
@@ -58,7 +58,7 @@ class AccountController extends Controller
 
     public function update(Request $request, User $user)
     {
-        if (!in_array($user->role, ['admin', 'pelayanan'])) {
+        if (!in_array($user->role, ['admin', 'pelayan'])) {
             abort(403);
         }
 
@@ -67,7 +67,7 @@ class AccountController extends Controller
             'username' => ['required', 'string', 'max:255', Rule::unique('users', 'username')->ignore($user->id)],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($user->id)],
             'password' => 'nullable|string|min:8|confirmed',
-            'role' => 'required|in:admin,pelayanan',
+            'role' => 'required|in:admin,pelayan',
             'is_active' => 'required|boolean',
         ]);
 
@@ -90,7 +90,7 @@ class AccountController extends Controller
 
     public function destroy(User $user)
     {
-        if (!in_array($user->role, ['admin', 'pelayanan'])) {
+        if (!in_array($user->role, ['admin', 'pelayan'])) {
             abort(403);
         }
 

@@ -17,11 +17,11 @@ class Khotbah extends Model
         'video',
         'description',
         'thumbnail',
-        'sermon_date',
+        'tanggal',
     ];
 
     protected $casts = [
-        'sermon_date' => 'date',
+        'tanggal' => 'date',
     ];
 
     public function getThumbnailUrlAttribute()

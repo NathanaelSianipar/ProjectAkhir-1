@@ -350,8 +350,8 @@ body {
 
         {{-- Filter by Kategori --}}
         @php
-            $kategoriList = $galeri->pluck('kategori')->filter()->unique()->values();
-        @endphpz
+            $kategoriList = $galeris->pluck('kategori')->filter()->unique()->values();
+        @endphp
 
         @if($kategoriList->count() > 1)
         <div class="filter-wrap" id="filterWrap">
@@ -371,13 +371,13 @@ body {
             @foreach($galeris as $item)
             <div class="gallery-card"
                  data-category="{{ $item->kategori ? Str::slug($item->kategori) : '' }}"
-                 onclick="openLightbox('{{ $item->foto ? asset('storage/' . $item->foto) : '' }}', '{{ addslashes($item->judul ?? '') }}')">
+                 onclick="openLightbox('{{ $item->image ? asset('storage/' . $item->image) : '' }}', '{{ addslashes($item->judul ?? '') }}')">
 
                 <div class="img-wrap">
-                    @if($item->foto)
-                        <img src="{{ asset('storage/' . $item->foto) }}"
+                    @if($item->image)
+                        <img src="{{ asset('storage/' . $item->image) }}"
                              alt="{{ $item->judul ?? 'Foto Galeri' }}"
-                             loading="lazy">
+                             loading="lazy">    
                         <div class="img-overlay">
                             <span class="img-overlay-text">
                                 <i class="bi bi-zoom-in"></i> Lihat Foto
@@ -420,7 +420,7 @@ body {
         </div>
 
         {{-- Pagination --}}
-        @if(method_exists($galeri, 'links') && $galeri->hasPages())
+        @if(method_exists($galeris, 'links') && $galeri->hasPages())
             <div class="d-flex justify-content-center mt-5">
                 {{ $galeri->links() }}
             </div>

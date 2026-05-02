@@ -46,16 +46,16 @@ class User extends Authenticatable
     {
         return match ($this->role) {
             'super_admin' => 'Super Admin',
-            'admin' => 'Admin',
-            'pelayanan' => 'Pelayanan',
-            default => 'Administrator',
+            'admin'       => 'Admin',
+            'pelayan'     => 'Pelayan',   // ← disesuaikan dengan nilai di DB
+            default       => 'Pengguna',
         };
     }
 
     public function getInitialsAttribute()
     {
-        $name = trim($this->name ?? 'A');
-        $words = preg_split('/\s+/', $name);
+        $name     = trim($this->name ?? 'A');
+        $words    = preg_split('/\s+/', $name);
         $initials = '';
 
         foreach ($words as $word) {

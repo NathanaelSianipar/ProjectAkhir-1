@@ -146,7 +146,7 @@
     <a href="{{ route('jadwal.index') }}">Jadwal Ibadah</a>
     <a href="{{ route('galeri.index') }}">Galeri</a>
     <a href="{{ route('khotbah.index') }}">Khotbah</a>
-    <a href="{{ route('pelayanan.index') }}">Pelayanan</a>
+    <a href="{{ route('admin.pelayanan.index') }}">Pelayanan</a>
     <a href="{{ route('kontak.index') }}">Kontak</a>
     <a href="{{ route('pengumuman.index') }}">Pengumuman</a>
     <a href="{{ route('accounts.index') }}">Akun</a>
@@ -171,7 +171,7 @@
     <a href="{{ route('jadwal.index') }}"><span class="icon">📅</span> Jadwal Ibadah</a>
     <a href="{{ route('galeri.index') }}"><span class="icon">🖼</span> Galeri</a>
     <a href="{{ route('khotbah.index') }}"><span class="icon">🎙</span> Khotbah</a>
-    <a href="{{ route('pelayanan.index') }}"><span class="icon">🙌</span> Pelayanan</a>
+    <a href="{{ route('admin.pelayanan.index') }}"><span class="icon">🙌</span> Pelayanan</a>
     <a href="{{ route('kontak.index') }}"><span class="icon">✉</span> Kontak</a>
     <a href="{{ route('pengumuman.index') }}"><span class="icon">📢</span> Pengumuman</a>
     <a href="{{ route('accounts.index') }}"><span class="icon">🔒</span> Akun</a>
@@ -226,7 +226,7 @@
       <a href="{{ route('khotbah.index') }}" style="text-decoration:none">
         <div class="card cyan"><div class="card-icon-wrap">🎙</div><div class="card-title">Khotbah</div><div class="card-desc">Kelola rekaman dan ringkasan khotbah yang bisa diakses jemaat kapan saja.</div><div class="card-arrow">→</div></div>
       </a>
-      <a href="{{ route('pelayanan.index') }}" style="text-decoration:none">
+      <a href="{{ route('admin.pelayanan.index') }}" style="text-decoration:none">
         <div class="card gold"><div class="card-icon-wrap">🙌</div><div class="card-title">Pelayanan</div><div class="card-desc">Atur informasi departemen pelayanan, komsel, dan kegiatan komunitas gereja.</div><div class="card-arrow">→</div></div>
       </a>
       <a href="{{ route('kontak.index') }}" style="text-decoration:none">

@@ -7,14 +7,19 @@ use App\Models\Pelayanan;
 
 class PelayananController extends Controller
 {
-    public function index()
-{
-    $pelayanans = Pelayanan::with('anggotas')->latest()->get();
+    /**
+     * Untuk USER / JEMAAT (tanpa login).
+     * Route: GET /Pelayanan  → name: user.pelayanan
+     */
+    public function indexUser()
+    {
+        $pelayanans = Pelayanan::with('anggotas')->latest()->get();
 
-    $kepemimpinan = $pelayanans->where('category', 'kepemimpinan')->values();
-    $timPelayanan = $pelayanans->where('category', 'tim')->values();
-    $fotoPelayanan = $pelayanans->where('category', 'aksi')->values();
+        $kepemimpinan  = $pelayanans->where('category', 'kepemimpinan')->values();
+        $timPelayanan  = $pelayanans->where('category', 'tim')->values();
+        $fotoPelayanan = $pelayanans->where('category', 'aksi')->values();
 
-    return view('Pelayanan.beranda', compact('kepemimpinan', 'timPelayanan', 'fotoPelayanan'));
-}
+        // View untuk jemaat/publik
+        return view('Pelayanan.Pelayanan.pelayanan', compact('kepemimpinan', 'timPelayanan', 'fotoPelayanan'));
+    }
 }

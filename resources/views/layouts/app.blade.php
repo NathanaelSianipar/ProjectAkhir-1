@@ -344,7 +344,6 @@
                 <a class="nav-link-gbi" href="{{ route('user.jadwal') }}">Jadwal</a>
                 <a class="nav-link-gbi" href="{{ route('user.galeri') }}">Galeri</a>
                 <a class="nav-link-gbi" href="{{ route('user.khotbah') }}">Khotbah</a>
-                <a class="nav-link-gbi" href="{{ route('user.pelayanan') }}">Pelayanan</a>
                 <a class="nav-link-gbi" href="{{ route('user.kontak') }}">Kontak</a>
                 <a class="nav-link-gbi" href="{{ route('user.pengumuman') }}">Pengumuman</a>
             </div>
@@ -410,7 +409,6 @@
                 <a class="nav-link-gbi" href="{{ route('user.jadwal') }}">Jadwal</a>
                 <a class="nav-link-gbi" href="{{ route('user.galeri') }}">Galeri</a>
                 <a class="nav-link-gbi" href="{{ route('user.khotbah') }}">Khotbah</a>
-                <a class="nav-link-gbi" href="{{ route('user.pelayanan') }}">Pelayanan</a>
                 <a class="nav-link-gbi" href="{{ route('user.kontak') }}">Kontak</a>
                 <a class="nav-link-gbi" href="{{ route('user.pengumuman') }}">Pengumuman</a>
 
@@ -468,7 +466,8 @@
                 <li><a href="{{ route('user.jadwal') }}">Jadwal</a></li>
                 <li><a href="{{ route('user.galeri') }}">Galeri</a></li>
                 <li><a href="{{ route('user.khotbah') }}">Khotbah</a></li>
-                <li><a href="{{ route('user.pelayanan') }}">Pelayanan</a></li>
+                <li><a href="{{ route('user.kontak') }}">Kontak</a></li>
+                <li><a href="{{ route('user.pengumuman') }}">Pengumuman</a></li>
                 <li><a href="{{ route('welcome') }}">Login</a></li>
             </ul>
         </div>
