@@ -405,12 +405,12 @@
         <div class="collapse d-lg-none" id="mobileMenu">
             <div class="mobile-menu">
                 <a class="nav-link-gbi" href="{{ route('home') }}">Beranda</a>
-                <a class="nav-link-gbi" href="{{ route('user.tentang') }}">Tentang Kami</a>
-                <a class="nav-link-gbi" href="{{ route('user.jadwal') }}">Jadwal</a>
+                <a class="nav-link-gbi" href="{{ route('pelayanan.tentang') }}">Tentang Kami</a>
+                <a class="nav-link-gbi" href="{{ route('pelayanan.jadwal') }}">Jadwal</a>
                 <a class="nav-link-gbi" href="{{ route('user.pelayanan') }}">Pelayanan</a>
-                <a class="nav-link-gbi" href="{{ route('user.khotbah') }}">Khotbah</a>
+                <a class="nav-link-gbi" href="{{ route('pelayanan.khotbah') }}">Khotbah</a>
                 <a class="nav-link-gbi" href="{{ route('user.kontak') }}">Kontak</a>
-                <a class="nav-link-gbi" href="{{ route('user.pengumuman') }}">Pengumuman</a>
+                <a class="nav-link-gbi" href="{{ route('pelayanan.pengumuman') }}">Pengumuman</a>
 
                 <div class="mobile-menu-footer">
                     @auth

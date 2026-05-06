@@ -18,6 +18,10 @@ use App\Http\Controllers\User\JadwalController as UserJadwalController;
 use App\Http\Controllers\User\TentangController as UserTentangController;
 use App\Http\Controllers\User\KontakController as UserKontakController;
 use App\Http\Controllers\Pelayanan\PelayananController;
+use App\Htpp\Controllers\Pelayanan\JadwalController as PelayananJadwalController;
+use App\Htpp\Controllers\Pelayanan\KhotbahController as PelayananKhotbahController;
+use App\Htpp\Controllers\Pelayanan\PengumumanController as PelayananPengumumanController;
+use App\Htpp\Controllers\Pelayanan\TentangController as PelayananTentangController;
 use App\Http\Controllers\Pelayan\BerandaController;   // ← controller baru
 use App\Http\Controllers\User\JemaatController;
 
@@ -120,6 +124,10 @@ Route::prefix('admin')->middleware(['auth', 'role:super_admin'])->group(function
 // ─────────────────────────────────────────────
 Route::prefix('pelayanan')->middleware(['auth', 'role:pelayan'])->group(function () {
     Route::get('/beranda', [BerandaController::class, 'index'])->name('pelayan.beranda');
+    Route::get('/jadwal', [PelayananJadwalController::class, 'index'])->name('pelayanan.jadwal');
+    Route::get('/khotbah', [PelayananKhotbahController::class, 'index'])->name('pelayanan.khotbah');
+    Route::get('/pengumuman', [PelayananPengumumanController::class, 'index'])->name('pelayanan.pengumuman');
+    Route::get('/Tentang', [PelayananTentangController::class, 'index'])->name('pelayanan.tentang');
     // Tambahkan route fitur pelayan lainnya di sini
     // Route::get('/jadwal',   [PelayanJadwalController::class, 'index'])->name('pelayan.jadwal');
     // Route::get('/absensi',  [PelayanAbsensiController::class, 'index'])->name('pelayan.absensi');
